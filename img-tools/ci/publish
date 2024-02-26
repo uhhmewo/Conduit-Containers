@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker push $(jq -r .author package.json)/$(jq -r .name package.json):${DOCKER_TAG:-latest}
+nx exec -- bash -c 'docker push $(jq -r .author package.json)/$(jq -r .name package.json):${DOCKER_TAG:-latest}'
