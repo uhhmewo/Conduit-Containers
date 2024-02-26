@@ -36,7 +36,7 @@ jobs:
 
       - name: Bootstrap
         run: |
-          ./bootstrap.sh
+          ./bootstrap
 
       - name: Build Docker images
         run: |
