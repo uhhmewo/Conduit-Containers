@@ -1,0 +1,14 @@
+{
+  "name": "containers",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "nx run-many --target=build"
+  },
+  "private": true,
+  "devDependencies": {
+    "@nx/js": "18.0.4",
+    "changeset": "^0.2.6",
+    "nx": "18.0.4"
+  }
+}

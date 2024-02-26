@@ -1,0 +1,7 @@
+{
+  "name": "minimal-omz",
+  "author": "3xpo",
+  "scripts": {
+    "build": "../../build-img --no-cache=true"
+  }
+}

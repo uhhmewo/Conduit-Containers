@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+docker build $@ -t $(jq -r .author package.json)/$(jq -r .name package.json):${DOCKER_TAG:-latest} .

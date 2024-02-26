@@ -1,0 +1,10 @@
+{
+  "name": "base",
+  "author": "3xpo",
+  "scripts": {
+    "build": "../../build-img --no-cache=true"
+  },
+  "dependencies": {
+    "minimal": "workspace:*"
+  }
+}
