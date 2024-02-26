@@ -5,6 +5,6 @@
     "build": "../../build-img --no-cache=true"
   },
   "dependencies": {
-    "minimal": "workspace:*"
+    "minimal-omz": "workspace:*"
   }
 }
