@@ -8,10 +8,13 @@ RUN <<EOT
 #!/usr/bin/zsh
 
 # Install toolchains
-rustup toolchain install stable-x86_64-unknown-linux-gnu
-rustup toolchain install stable-x86_64-unknown-linux-musl
-rustup toolchain install stable-x86_64-unknown-windows-gnu
+rustup toolchain install stable-x86_64-unknown-linux-gnu &
+rustup toolchain install stable-x86_64-unknown-linux-musl &
+rustup toolchain install stable-x86_64-pc-windows-gnu &
+
+# Wait for toolchains to install
+wait
 
 # Set default toolchain
-rustup default x86_64-unknown-linux-musl
+rustup default stable-x86_64-unknown-linux-musl
 EOT
