@@ -42,5 +42,9 @@ info "Using $PACKAGE_MANAGER v$($PACKAGE_MANAGER --version) as the package manag
 
 # Install Dependencies
 info "Installing dependencies...";
-$PACKAGE_MANAGER i;
+if [ "$PACKAGE_MANAGER" == "pnpm" ]; then
+  $PACKAGE_MANAGER install --no-frozen-lockfile;
+else
+  $PACKAGE_MANAGER install;
+fi;
 log "Done!";

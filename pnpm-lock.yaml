@@ -20,13 +20,23 @@ importers:
 
   containers/base:
     dependencies:
-      minimal:
+      minimal-omz:
         specifier: workspace:*
-        version: link:../minimal
+        version: link:../minimal-omz
+
+  containers/base-rs:
+    dependencies:
+      base:
+        specifier: workspace:*
+        version: link:../base
 
   containers/minimal: {}
 
-  containers/minimal-omz: {}
+  containers/minimal-omz:
+    dependencies:
+      minimal:
+        specifier: workspace:*
+        version: link:../minimal
 
 packages:
 
