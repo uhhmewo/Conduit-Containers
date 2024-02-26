@@ -12,9 +12,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: List env
-        run: env
-
       - name: Checkout
         uses: actions/checkout@v4
 
