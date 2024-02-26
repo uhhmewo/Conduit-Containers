@@ -1,0 +1,10 @@
+{
+  "name": "base-rs",
+  "author": "3xpo",
+  "scripts": {
+    "build": "../../build-img --no-cache=true"
+  },
+  "dependencies": {
+    "base": "workspace:*"
+  }
+}
