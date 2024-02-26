@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -ea
+
+# Sets the version to 1.0.YYYYMMDD-hh-mm in the package.json file
+jq '.version="1.0.'$(date +%Y%m%d-%H-%M)'"' package.json > package.json.tmp
+mv package.json.tmp package.json
+echo "Version set to $(jq -r .version package.json)"
