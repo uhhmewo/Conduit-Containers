@@ -2,7 +2,8 @@
   "name": "base-rs",
   "author": "3xpo",
   "scripts": {
-    "build": "../../build-img --no-cache=true"
+    "build": "../../img-tools/build --no-cache=true",
+    "publish": "../../publish"
   },
   "dependencies": {
     "base": "workspace:*"

@@ -1,3 +1,9 @@
 # base
 
-A sensible base CI image
+A sensible base CI image.
+
+This image is based on `3xpo/base`, and adds the following:
+
+- `pnpm` (via [get.pnpm.io](https://get.pnpm.io/install.sh))
+- `npm` (via pnpm)
+- `node` (via pnpm)
