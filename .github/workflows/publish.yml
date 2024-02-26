@@ -44,4 +44,4 @@ jobs:
 
       - name: Push to Docker Hub
         run: |
-          ./img-tools/ci/publish
+          pnpm ./img-tools/ci/publish
