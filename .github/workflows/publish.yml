@@ -38,6 +38,10 @@ jobs:
         run: |
           ./bootstrap
 
+      - name: Pull arch
+        run: |
+          docker pull archlinux:latest
+
       - name: Build Docker images
         run: |
           pnpm run build
