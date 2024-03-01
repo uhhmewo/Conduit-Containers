@@ -15,8 +15,11 @@ LABEL org.opencontainers.image.licenses="GPL-3.0-or-later"
 # LABEL org.opencontainers.image.revision="e90cb0a7bdce096b52e08478ecef8ef66862bc6a"
 # LABEL org.opencontainers.image.created="2024-02-26T11:55:00Z"
 
+# Upgrade System
+RUN pacman -Syu --noconfirm
+
 # Install base packages
-RUN pacman -Syu --noconfirm --needed base base-devel zsh git openssh sudo curl
+RUN pacman -S --noconfirm --needed base base-devel zsh git openssh sudo curl
 
 # Set up user
 RUN useradd -m -G wheel -s /usr/bin/zsh astolfo && \
