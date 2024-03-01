@@ -19,7 +19,13 @@ LABEL org.opencontainers.image.licenses="GPL-3.0-or-later"
 RUN pacman -Syu --noconfirm
 
 # Install base packages
-RUN pacman -S --noconfirm --needed base base-devel zsh git openssh sudo curl
+RUN pacman -S --noconfirm --needed base base-devel zsh git openssh sudo curl pacman-contrib
+
+# Clear package cache
+RUN paccache -r -k 0
+
+# Remove any unneeded packages, aswell as pacman-contrib - pacman-contrib will stay in the cache sadly, not much i can do about it without manually clearing the cache.
+RUN pacman -Rns --noconfirm pacman-contrib `pacman -Qdtq`
 
 # Set up user
 RUN useradd -m -G wheel -s /usr/bin/zsh astolfo && \
