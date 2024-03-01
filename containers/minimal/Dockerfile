@@ -27,7 +27,8 @@ RUN useradd -m -G wheel -s /usr/bin/zsh astolfo && \
 
 # Set up user environment
 USER astolfo
-WORKDIR /home/astolfo
+RUN mkdir -p /home/astolfo/work
+WORKDIR /home/astolfo/work
 
 # Set the default SHELL
 SHELL ["/usr/bin/zsh", "-c"]
