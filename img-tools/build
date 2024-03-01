@@ -1,2 +1,7 @@
 #!/usr/bin/env bash
-docker build $@ -t $(jq -r .author package.json)/$(jq -r .name package.json):${DOCKER_TAG:-latest} .
+set -eax
+
+export NAME=$(jq -r .name package.json)
+export AUTHOR=$(jq -r .author package.json)
+export IMAGE=$AUTHOR/$NAME:${DOCKER_TAG:-latest}
+docker build $@ -t $IMAGE .
