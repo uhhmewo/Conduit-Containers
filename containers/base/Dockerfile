@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.description="Preset Containerd image of Arch Linu
 LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/base/README.md"
 
 # Setup pnpm's environment
-ENV PNPM_HOME=/home/astolfo/.local/share/pnpm
+ENV PNPM_HOME=$HOME/.local/share/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 RUN <<EOT
   mkdir -p $PNPM_HOME
@@ -15,10 +15,10 @@ EOT
 
 # Set up pnpm's zshrc
 RUN <<EOT
-echo -e "# pnpm\nexport PNPM_HOME=\"/home/astolfo/.local/share/pnpm\"\ncase \":\$PATH:\" in\n  *\":\$PNPM_HOME:\"*) ;;\n  *) export PATH=\"\$PNPM_HOME:\$PATH\" ;;\nesac\n# pnpm end" > $HOME/.pnpm-load
-cat .pnpm-load >> .zshrc
+echo -e "# pnpm\nexport PNPM_HOME=\"\$HOME/.local/share/pnpm\"\ncase \":\$PATH:\" in\n  *\":\$PNPM_HOME:\"*) ;;\n  *) export PATH=\"\$PNPM_HOME:\$PATH\" ;;\nesac\n# pnpm end" > $HOME/.pnpm-load
+cat $HOME/.pnpm-load >> $HOME/.zshrc
 # in future, we might wanna add a check for other .rc files
-rm .pnpm-load
+rm $HOME/.pnpm-load
 EOT
 
 # Install pnpm
