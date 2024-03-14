@@ -2,7 +2,7 @@
 
 A sensible base CI image for Rust projects.
 
-Based on `base`, but adds Rust and Cargo.
+Based on [`base`](https://codeberg.org/Expo/Containers/src/branch/master/containers/base), but adds Rust and Cargo.
 
 The following targets are installed:
 
