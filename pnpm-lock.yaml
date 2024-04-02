@@ -38,6 +38,12 @@ importers:
         specifier: workspace:*
         version: link:../minimal
 
+  containers/rocm-torch:
+    dependencies:
+      minimal-omz:
+        specifier: workspace:*
+        version: link:../minimal-omz
+
 packages:
 
   /@ampproject/remapping@2.2.1:
