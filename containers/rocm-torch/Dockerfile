@@ -21,3 +21,5 @@ RUN <<EOT
   # Install Torch
   pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.0
 EOT
+
+ONBUILD RUN sudo pacman -Syu

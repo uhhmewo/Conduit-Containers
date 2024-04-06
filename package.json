@@ -3,7 +3,9 @@
   "version": "1.0.0-dev",
   "license": "MIT",
   "scripts": {
-    "build": "nx run-many --target=build"
+    "build": "nx run-many --target=build",
+    "build:no-ci": "nx run-many --target=build-no-ci",
+    "pub": "nx run-many --target=publish-no-ci"
   },
   "private": true,
   "devDependencies": {

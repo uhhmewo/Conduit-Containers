@@ -19,4 +19,5 @@ As of right now, this is `~/work`.
 
 Usually running `pacman -Syu` is needed with `archlinux`'s official container. This container, however, updates every hour on Docker Hub, meaning we'll at most be an hour out of date - which is something a lot of package mirrors can't even promise.
 
-> Note: You may still need to rerun `pacman -Syu` if your CI system caches the image, as it may not pull the latest version.
+> Note: You may still need to rerun `pacman -Syu` if your CI system caches the image, as it may not pull the latest version.<br/>
+> Note 2: This excludes the rocm-torch package, as the CI builder doesnt have the disk space to build it. As a hotfix, it uses [ONBUILD](https://docs.docker.com/reference/dockerfile/#onbuild) to update when you build an image based on it.

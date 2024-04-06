@@ -2,8 +2,8 @@
   "name": "rocm-torch",
   "author": "3xpo",
   "scripts": {
-    "build": "../../img-tools/build --no-cache=true",
-    "publish": "../../publish"
+    "build-no-ci": "../../img-tools/build --no-cache=true",
+    "publish-no-ci": "../../publish"
   },
   "dependencies": {
     "minimal-omz": "workspace:*"
