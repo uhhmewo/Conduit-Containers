@@ -9,8 +9,8 @@
   },
   "private": true,
   "devDependencies": {
-    "@nx/js": "18.2.3",
+    "@nx/js": "18.3.4",
     "changeset": "^0.2.6",
-    "nx": "18.2.3"
+    "nx": "18.3.4"
   }
 }
