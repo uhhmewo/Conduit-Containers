@@ -2,7 +2,7 @@ FROM 3xpo/minimal-omz
 
 LABEL org.opencontainers.image.title="Expo's Arch Linux Base Image"
 LABEL org.opencontainers.image.description="Preset Containerd image of Arch Linux with a general decent baseline node build environment. Based on 3xpo/minimal-omz."
-LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/base/README.md"
+LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/containers/ci/base/README.md"
 
 # Setup pnpm's environment
 ENV PNPM_HOME=$HOME/.local/share/pnpm
