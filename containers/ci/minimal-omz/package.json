@@ -2,8 +2,8 @@
   "name": "minimal-omz",
   "author": "3xpo",
   "scripts": {
-    "build": "../../img-tools/build --no-cache=true",
-    "publish": "../../publish"
+    "build": "../../../img-tools/build --no-cache=true",
+    "publish": "../../../publish"
   },
   "dependencies": {
     "minimal": "workspace:*"
