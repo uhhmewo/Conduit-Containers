@@ -1,5 +1,5 @@
 {
-  "name": "minimal",
+  "name": "nothin",
   "author": "3xpo",
   "scripts": {
     "build": "../../img-tools/build --no-cache=true",
