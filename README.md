@@ -8,7 +8,7 @@ All images contain a non-root user named `astolfo`, which commands are run on by
 
 ## NodeJS
 
-All images excluding `minimal` and `minimal-omz` contain NodeJS as this is designed to be a CI/CD base image, and a lot of github steps depend on it.
+All images excluding `nothing`, `minimal` and `minimal-omz` contain NodeJS as this is designed to be a CI/CD base image, and a lot of github steps depend on it.
 
 ## Directory Structure
 
