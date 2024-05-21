@@ -7,7 +7,7 @@ RUN pacman -S --noconfirm --needed base base-devel zsh git openssh sudo curl pac
 RUN paccache -r -k 0
 
 # Remove any unneeded packages
-RUN pacman -Rns --noconfirm `pacman -Qdtq`
+RUN pacman -Rns --noconfirm `pacman -Qdtq` || true
 
 # Clear package cache
 RUN paccache -r -k 0
