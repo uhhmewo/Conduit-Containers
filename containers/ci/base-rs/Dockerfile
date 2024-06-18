@@ -20,6 +20,9 @@ rustup toolchain install stable-x86_64-pc-windows-gnu &
 # Wait for toolchains to install
 wait
 
+# Install stable for wherever you're currently running
+rustup toolchain install stable
+
 # Set default toolchain
-rustup default stable-x86_64-unknown-linux-musl
+rustup default stable
 EOT
