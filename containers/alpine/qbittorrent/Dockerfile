@@ -1,6 +1,6 @@
 FROM docker.io/alpine:latest
 
-RUN apk --no-cache add qbittorrent-nox shadow sudo bash
+RUN apk --no-cache add qbittorrent-nox shadow sudo bash python3
 
 COPY <<EOF "/usr/bin/qb-entrypoint"
 #!/bin/bash
