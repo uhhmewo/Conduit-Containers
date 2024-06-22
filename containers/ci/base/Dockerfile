@@ -22,7 +22,7 @@ rm $HOME/.pnpm-load
 EOT
 
 # Install pnpm
-RUN curl -fsSL https://get.pnpm.io/install.sh | ENV="$HOME/.zshrc" zsh -
+RUN (curl -fLo /tmp/install-pnpm.sh https://get.pnpm.io/install.sh || curl -fLo /tmp/install-pnpm.sh https://raw.githubusercontent.com/pnpm/get.pnpm.io/main/install.sh) && ENV="$HOME/.zshrc" zsh /tmp/install-pnpm.sh && rm /tmp/install-pnpm.sh
 
 # Set up node from pnpm
 RUN pnpm env use latest -g
