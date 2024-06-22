@@ -1,0 +1,8 @@
+{
+  "name": "alpine-qb",
+  "author": "3xpo",
+  "scripts": {
+    "build": "../../../img-tools/build --no-cache=true",
+    "publish": "../../../publish"
+  }
+}
