@@ -17,8 +17,8 @@ I am not responsible for any legality-related side-effects your use of this imag
 
 ### Docker/Podman Run
 
-- `docker run -it --rm -p 127.0.0.1:8080:8080 -v "/etc/qbittorrent:/home/qb/.config/qBittorrent:rw" -v "$HOME/qBittorrent-Downloads:/home/qb/Downloads" docker.io/3xpo/alpine-vuetorrent:latest`
-- `podman run -it --rm -p 127.0.0.1:8080:8080 -v "/etc/qbittorrent:/home/qb/.config/qBittorrent:rw" -v "$HOME/qBittorrent-Downloads:/home/qb/Downloads:rw" docker.io/3xpo/alpine-vuetorrent:latest`
+- `docker run -it --rm -p 127.0.0.1:8080:8080 -v "/etc/qbittorrent:/home/qb/.config/qBittorrent:rw" -v "/var/qbittorrent:/home/qb/.local/share/qBittorrent:rw" -v "$HOME/qBittorrent-Downloads:/home/qb/Downloads" docker.io/3xpo/alpine-vuetorrent:latest`
+- `podman run -it --rm -p 127.0.0.1:8080:8080 -v "/etc/qbittorrent:/home/qb/.config/qBittorrent:rw" -v "/var/qbittorrent:/home/qb/.local/share/qBittorrent:rw" -v "$HOME/qBittorrent-Downloads:/home/qb/Downloads:rw" docker.io/3xpo/alpine-vuetorrent:latest`
 
 ### Docker/Podman Compose
 
@@ -30,6 +30,7 @@ services:
       - '127.0.0.1:8080:8080'
     volumes:
       - '/etc/qbittorrent:/home/qb/.config/qBittorrent:rw'
+      - '/var/qbittorrent:/home/qb/.local/share/qBittorrent:rw'
       - '/home/<username>/qBittorrent-Downloads:/home/qb/Downloads:rw'
 ```
 

@@ -28,6 +28,7 @@ services:
       - '127.0.0.1:8080:8080'
     volumes:
       - '/etc/qbittorrent:/home/qb/.config/qBittorrent:rw'
+      - '/var/qbittorrent:/home/qb/.local/share/qBittorrent:rw'
       - '/home/<username>/qBittorrent-Downloads:/home/qb/Downloads:rw'
 ```
 

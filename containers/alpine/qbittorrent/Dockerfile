@@ -42,7 +42,7 @@ Cookies=@Invalid()
 EOF
 RUN rm -rf "${HOME}/.config/qBittorrent"
 EXPOSE 8080
-VOLUME [ "${HOME}/.config/qBittorrent", "${DOWNLOADS}" ]
+VOLUME [ "${HOME}/.config/qBittorrent", "${DOWNLOADS}", "${HOME}/.local/share/qBittorrent" ]
 
 ENTRYPOINT [ "/usr/bin/qb-entrypoint" ]
 CMD [ "/usr/bin/qbittorrent-nox" ]
