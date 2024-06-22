@@ -39,4 +39,4 @@ RUN apk --no-cache add git && chmod +x /usr/bin/update-vuetorrent-job /usr/bin/u
 USER qb
 RUN git clone --single-branch --branch latest-release https://github.com/VueTorrent/VueTorrent.git "${HOME}/vuetorrent"
 
-CMD [ "/usr/bin/qb-entrypoint", "/usr/bin/update-vuetorrent-job", "/usr/bin/qbittorrent-nox" ]
+CMD [ "/usr/bin/update-vuetorrent-job", "/usr/bin/qbittorrent-nox" ]

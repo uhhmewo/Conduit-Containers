@@ -44,5 +44,5 @@ RUN rm -rf "${HOME}/.config/qBittorrent"
 EXPOSE 8080
 VOLUME [ "${HOME}/.config/qBittorrent", "${DOWNLOADS}" ]
 
-ENTRYPOINT [ "/usr/bin/sudo", "/bin/wrapwg", "/usr/bin/sudo", "-u", "qb" ]
-CMD [ "/usr/bin/qb-entrypoint", "/usr/bin/qbittorrent-nox" ]
+ENTRYPOINT [ "/usr/bin/qb-entrypoint" ]
+CMD [ "/usr/bin/qbittorrent-nox" ]
