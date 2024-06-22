@@ -1,4 +1,4 @@
-FROM archlinux:latest AS base
+FROM docker.io/archlinux:latest AS base
 
 # Upgrade System
 RUN pacman -Syu --noconfirm

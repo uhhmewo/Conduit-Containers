@@ -40,7 +40,11 @@ jobs:
 
       - name: Pull arch
         run: |
-          docker pull archlinux:latest
+          docker pull docker.io/archlinux:latest
+
+      - name: Pull alpine
+        run: |
+          docker pull docker.io/alpine:latest
 
       - name: Build Docker images
         run: |

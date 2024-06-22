@@ -1,4 +1,4 @@
-FROM docker.io/alpine
+FROM docker.io/alpine:latest
 
 RUN apk --no-cache add qbittorrent-nox shadow sudo
 
