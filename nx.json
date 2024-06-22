@@ -4,7 +4,11 @@
   "targetDefaults": {
     "build": {
       "cache": true,
-      "inputs": ["{projectRoot}/Dockerfile", "{projectRoot}/package.json"],
+      "inputs": [
+        "{projectRoot}/Dockerfile",
+        "{projectRoot}/package.json",
+        "{projectRoot}/files"
+      ],
       "dependsOn": ["^build"]
     },
     "lint": {
