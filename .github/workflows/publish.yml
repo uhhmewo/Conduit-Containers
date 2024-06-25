@@ -32,7 +32,16 @@ jobs:
 
       - name: Install Dependencieis
         run: |
-          sudo apt install sudo build-essential libssl-dev git podman/sid buildah/sid qemu-system/sid qemu-user-static/sid make bash jq -y
+          set -eax
+          sudo apt install build-essential libssl-dev git make bash jq -y
+          sudo apt install podman/sid buildah/sid -y
+          sudo apt install qemu-system/sid -y
+          sudo apt install qemu-user/sid -y
+          sudo apt install qemu-user-static/sid binfmt-support/sid -y
+
+      - name: Enable Binfmt Support
+        run: |
+          sudo /usr/sbin/update-binfmts --enable
 
       - name: Tell git to shut up
         run: git config --global --add safe.directory /__w/containers/containers
