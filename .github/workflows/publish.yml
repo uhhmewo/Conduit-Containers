@@ -18,10 +18,9 @@ jobs:
       - name: Update Buildah
         run: |
           set -eax
-          curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc
-          curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc
-          sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/
-          sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/
+          (curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
+          (curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
+          wait
           sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo apt -y -qq update
