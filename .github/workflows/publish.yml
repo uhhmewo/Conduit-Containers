@@ -15,6 +15,8 @@ jobs:
       # we don't use ourselves here as that could cause softlocks when building
       image: archlinux/archlinux
       options: "'--security-opt' 'seccomp=unconfined' '--security-opt' 'label=disable' '--remote'"
+      volumes:
+        - /run:/run
     steps:
       - name: Setup Container
         run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which --needed --noconfirm
