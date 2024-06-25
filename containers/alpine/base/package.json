@@ -1,11 +1,11 @@
 {
-  "name": "alpine-wg",
+  "name": "alpine-base",
   "author": "3xpo",
   "scripts": {
     "build": "../../../img-tools/build --no-cache=true",
     "publish": "../../../publish"
   },
   "dependencies": {
-    "alpine-base": "workspace:*"
+    "minimal-omz": "workspace:*"
   }
 }

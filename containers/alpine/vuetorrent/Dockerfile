@@ -1,4 +1,4 @@
-FROM docker.io/3xpo/alpine-qb:latest
+FROM 3xpo/alpine-qb:latest
 
 USER root
 COPY <<EOT /usr/bin/update-vuetorrent-job

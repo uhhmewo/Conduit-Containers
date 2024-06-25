@@ -1,4 +1,4 @@
-FROM docker.io/alpine:latest
+FROM 3xpo/alpine-base
 
 RUN apk --no-cache add qbittorrent-nox shadow sudo bash python3
 
