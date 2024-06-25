@@ -11,18 +11,20 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Noble Repos
-        run: |
-          sudo sed -i s/jammy/noble/g /etc/apt/sources.list
-          sudo apt update -y -qq
-      - name: Normal Upgrade
-        run: sudo apt upgrade -y
-      - name: Dist Upgrade
-        run: sudo apt dist-upgrade -y
+      # - name: Use Noble Repos
+      #   run: |
+      #     sudo sed -i s/jammy/noble/g /etc/apt/sources.list
+      #     sudo apt update -y -qq
+      # - name: Normal Upgrade
+      #   run: sudo apt upgrade -y
+      # - name: Dist Upgrade
+      #   run: sudo apt dist-upgrade -y
       - name: Ensure Podman & Buildah are installed
         run: sudo apt install -y podman buildah
 
