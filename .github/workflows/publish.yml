@@ -15,11 +15,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Update System
+      - name: Update Buildah
         run: |
+          echo 'deb http://deb.debian.org/debian sid main' > /etc/apt/sources.list.d/sid
+          echo 'Package: *' > /etc/apt/preferences.d/sid-pinning
+          echo 'Pin: release a=unstable' >> /etc/apt/preferences.d/sid-pinning
+          echo 'Pin-Priority: 100' >> /etc/apt/preferences.d/sid-pinning
           sudo apt -y update
           sudo apt -y upgrade
-          sudo apt -y install buildah
+          sudo apt -y install buildah/sid podman/sid
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
