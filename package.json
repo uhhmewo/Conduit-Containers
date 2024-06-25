@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "build": "nx run-many --target=build --parallel=32",
-    "build:no-ci": "nx run-many --target=build-no-ci",
     "pub": "nx run-many --target=publish-no-ci"
   },
   "private": true,

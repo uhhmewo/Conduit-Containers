@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
+if [[ -f "$(dirname $0)/../../contrib/config/sh" ]]; then
+  source "$(dirname $0)/../../contrib/config/sh"
+fi
+
 set -ea
 
 # Sets the version to 1.0.YYYYMMDD-hh-mm in the package.json file
-jq '.version="1.0.'$(date +%Y%m%d-%H-%M)'"' package.json > package.json.tmp
+"$JQ" '.version="1.0.'$(date +%Y%m%d-%H-%M)'"' package.json > package.json.tmp
 mv package.json.tmp package.json
-echo "Version set to $(jq -r .version package.json)"
+echo "Version set to $("$JQ" -r .version package.json)"

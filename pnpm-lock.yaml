@@ -18,17 +18,41 @@ importers:
         specifier: 19.3.0
         version: 19.3.0
 
-  containers/base:
+  containers/alpine/base: {}
+
+  containers/alpine/base-edge: {}
+
+  containers/alpine/prometheus:
+    dependencies:
+      alpine-base:
+        specifier: workspace:*
+        version: link:../base
+
+  containers/alpine/qbittorrent:
+    dependencies:
+      alpine-base:
+        specifier: workspace:*
+        version: link:../base
+
+  containers/alpine/vuetorrent:
+    dependencies:
+      alpine-qb:
+        specifier: workspace:*
+        version: link:../qbittorrent
+
+  containers/alpine/wg:
+    dependencies:
+      alpine-base:
+        specifier: workspace:*
+        version: link:../base
+
+  containers/arch/nothing: {}
+
+  containers/arch/prometheus:
     dependencies:
       minimal-omz:
         specifier: workspace:*
-        version: link:../minimal-omz
-
-  containers/base-rs:
-    dependencies:
-      base:
-        specifier: workspace:*
-        version: link:../base
+        version: link:../../ci/minimal-omz
 
   containers/ci/base:
     dependencies:
@@ -40,37 +64,21 @@ importers:
     dependencies:
       base:
         specifier: workspace:*
-        version: link:../prometheus
+        version: link:../base
 
   containers/ci/flatpak:
     dependencies:
       base:
         specifier: workspace:*
-        version: link:../prometheus
+        version: link:../base
 
   containers/ci/minimal:
     dependencies:
       nothing:
         specifier: workspace:*
-        version: link:../nothing
+        version: link:../../arch/nothing
 
   containers/ci/minimal-omz:
-    dependencies:
-      minimal:
-        specifier: workspace:*
-        version: link:../minimal
-
-  containers/ci/nothing: {}
-
-  containers/ci/prometheus:
-    dependencies:
-      minimal-omz:
-        specifier: workspace:*
-        version: link:../minimal-omz
-
-  containers/minimal: {}
-
-  containers/minimal-omz:
     dependencies:
       minimal:
         specifier: workspace:*

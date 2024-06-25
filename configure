@@ -1,0 +1,143 @@
+#!/bin/sh
+
+set -e
+
+export OCI_HOST=""
+export OCI_BUILDER=""
+export JQ=""
+
+# Check if a command exists
+exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Handle Args
+for arg in "$@"
+do
+  case $arg in
+    -o | --oci-ocihost | -O | --oci-builder | --jq)
+      echo "Invalid Syntax: Did you put a space instead of an equals?"
+      exit 1;
+      ;;
+    -o=* | --oci-ocihost=*)
+      OCI_HOST="${arg#*=}"
+      shift
+      ;;
+    -O=* | --oci-builder=*)
+      OCI_BUILDER="${arg#*=}"
+      shift
+      ;;
+    --jq=*)
+      JQ="${arg#*=}"
+      shift
+      ;;
+    --help | -h)
+      echo -ne "Usage: ./configure [...options]
+
+Options:
+  --oci-ocihost=OCI_HOST -o=OCI_HOST      Specifies which OCI ocihost to use for pushing
+                                            to Docker Hub. Defaults to Podman if
+                                            installed, otherwise uses Docker.
+  --oci-builder=BUILDER -O=BUILDER        Specifies which OCI builder to use for
+                                            building images. Defaults to Buildah if
+                                            podman is the OCI ocihost, otherwise uses
+                                            Docker.
+  --jq=JQ                                 Specifies which jq executable to use.
+  --help -h                               Display this help message and exit.
+  --license -l                            Display the licence and exit.
+";
+      exit 0;
+      ;;
+    --license | -l)
+      make license;
+      exit 0;
+      ;;
+    *)
+      # Unknown options
+      echo "WARN: Unknown option $arg" >&2
+      ;;
+  esac
+done
+
+handleOCIHost() {
+  echo -n "Checking for OCI Host... "
+  if [ -z "$OCI_HOST" ]; then
+    if exists "podman"; then
+      OCI_HOST="$(which "podman")"
+    elif exists "docker"; then
+      OCI_HOST="$(which "docker")"
+    else
+      echo -e "err: neither docker nor podman exist"
+      exit 1
+    fi;
+  fi;
+  echo "ok: $OCI_HOST"
+}
+handleOCIBuilder() {
+  echo -n "Checking for OCI Builder... "
+  if [ -z "$OCI_BUILDER" ]; then
+    if [[ "$(basename "$OCI_HOST")" == "podman" ]]; then
+      if ! exists "buildah"; then
+        echo "err: buildah not installed, ocihost is podman" 1>&2
+        exit 1
+      fi;
+      OCI_BUILDER="$(which "buildah")"
+    elif [[ "$(basename "$OCI_HOST")" == "docker" ]]; then
+      OCI_BUILDER="$(which "docker")"
+    elif exists "buildah"; then
+      OCI_BUILDER="$(which "buildah")"
+    elif exists "docker"; then
+      OCI_BUILDER="$(which "docker")"
+    else
+      echo -e "err: unknown builder for ocihost $OCI_HOST"
+      exit 1
+    fi;
+  fi;
+  if [[ "$(basename $OCI_BUILDER)" == "buildah" ]]; then
+    # We depend on buildah v1.33 or above
+    BUILDAH_VERSION="$(buildah --version | awk '{print $3}')"
+    BUILDAH_MAJOR="$(sed 's/\./ /g' <<< "$BUILDAH_VERSION" | awk '{print $1}')"
+    BUILDAH_MINOR="$(sed 's/\./ /g' <<< "$BUILDAH_VERSION" | awk '{print $2}')"
+    BUILDAH_PATCH="$(sed 's/\./ /g' <<< "$BUILDAH_VERSION" | awk '{print $3}')"
+    BUILDAH_MINIMUM_VERSION="1.33.0"
+    BUILDAH_MINIMUM_MAJOR="$(sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION" | awk '{print $1}')"
+    BUILDAH_MINIMUM_MINOR="$(sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION" | awk '{print $2}')"
+    BUILDAH_MINIMUM_PATCH="$(sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION" | awk '{print $3}')"
+    if (( $BUILDAH_MAJOR < $BUILDAH_MINIMUM_MAJOR )); then
+      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (major version $BUILDAH_MINIMUM_MAJOR)" 1>&2
+      exit 1;
+    fi
+    if (( $BUILDAH_MINOR < $BUILDAH_MINIMUM_MINOR )); then
+      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (minor version $BUILDAH_MINIMUM_MINOR)" 1>&2
+      exit 1;
+    fi
+    if (( $BUILDAH_PATCH < $BUILDAH_MINIMUM_PATCH )); then
+      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (patch version $BUILDAH_MINIMUM_PATCH)" 1>&2
+      exit 1;
+    fi
+  fi;
+  echo "ok: $OCI_BUILDER"
+}
+handleJQ() {
+  echo -n "Checking for jq... "
+  if [ -z "$JQ" ]; then
+    if exists "jq"; then
+      JQ="$(which "jq")"
+    else
+      echo "err: not found" 1>&2
+      exit 1;
+    fi
+  fi;
+  echo "ok: $JQ"
+}
+handleOCIHost;
+handleOCIBuilder;
+handleJQ;
+
+mkdir -p contrib/config
+echo "OCI_HOST = \"$OCI_HOST\"
+OCI_BUILDER = \"$OCI_BUILDER\"
+JQ = \"$JQ\"" > contrib/config/mk
+echo "export OCI_HOST=\"$OCI_HOST\"
+export OCI_OCI_BUILDER=\"$OCI_BUILDER\"
+export JQ=\"$JQ\"" > contrib/config/sh

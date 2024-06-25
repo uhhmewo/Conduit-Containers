@@ -1,6 +1,6 @@
 FROM docker.io/alpine:latest AS base
 
-RUN sh -c apk --no-cache update
+RUN apk --no-cache update
 RUN apk --no-cache upgrade
 RUN apk --no-cache add nano shadow sudo
 RUN useradd lain

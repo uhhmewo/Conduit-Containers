@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -eax
 
-export NAME="$(jq -r .name package.json)"
-export AUTHOR="$(jq -r .author package.json)"
+if [[ -f "$(dirname $0)/../contrib/config/sh" ]]; then
+  source "$(dirname $0)/../contrib/config/sh"
+fi
+
+export NAME="$("$JQ" -r .name package.json)"
+export AUTHOR="$("$JQ" -r .author package.json)"
 export IMAGE="${REGISTRY:-"docker.io"}/$AUTHOR/$NAME:${DOCKER_TAG:-latest}"
 export OCI_HOST="${OCI_HOST:-podman}"
 export OCI_BUILDER="${OCI_BUILDER:-"${OCI_HOST}"}"

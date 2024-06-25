@@ -48,9 +48,17 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Setup Version
+        run: ./img-tools/ci/setup-version
+
+      - name: Setup Version
+        run: ./img-tools/ci/update-ci-instructions
+
       - name: Bootstrap
-        run: |
-          ./bootstrap
+        run: ./bootstrap
+
+      - name: Configure
+        run: ./configure
 
       - name: Pull arch
         run: |

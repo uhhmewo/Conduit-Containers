@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+if [[ -f "$(dirname $0)/../../contrib/config/sh" ]]; then
+  source "$(dirname $0)/../../contrib/config/sh"
+fi
+
 set -ea
-nx exec -- sed -i "s/#CI:INSERT_VERSION_LABEL/LABEL org.opencontainers.image.version=\"$(jq -r .version package.json)\"/g" Dockerfile
-nx exec -- sed -i "s/#CI:INSERT_REVISION_LABEL/LABEL org.opencontainers.image.version=\"$(git rev-parse HEAD)\"/g" Dockerfile
-nx exec -- sed -i "s/#CI:INSERT_CREATION_LABEL/LABEL org.opencontainers.image.version=\"$(date +%Y-%m-%dT%H:%M:%S)\"/g" Dockerfile
+nx exec -- sed -i "s/#CI:INSERT_VERSION_LABEL/LABEL org.opencontainers.image.version=\"$("$JQ" -r .version package.json)\"/g" Containerfile
+nx exec -- sed -i "s/#CI:INSERT_REVISION_LABEL/LABEL org.opencontainers.image.revision=\"$(git rev-parse HEAD)\"/g" Containerfile
+nx exec -- sed -i "s/#CI:INSERT_CREATION_LABEL/LABEL org.opencontainers.image.created=\"$(date +%Y-%m-%dT%H:%M:%S)\"/g" Containerfile

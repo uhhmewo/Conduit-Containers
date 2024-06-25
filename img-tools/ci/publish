@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
+
+if [[ -f "$(dirname $0)/../../contrib/config/sh" ]]; then
+  source "$(dirname $0)/../../contrib/config/sh"
+fi
+
 export OCI_HOST="${OCI_HOST:-podman}"
-nx exec -- bash -c "'$OCI_HOST'"' push docker.io/$(jq -r .author package.json)/$(jq -r .name package.json):${DOCKER_TAG:-latest}'
+nx exec -- bash -c "'$OCI_HOST'"' push docker.io/$("$JQ" -r .author package.json)/$("$JQ" -r .name package.json):${DOCKER_TAG:-latest}'
