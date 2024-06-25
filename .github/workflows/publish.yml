@@ -23,6 +23,8 @@ jobs:
         run: sudo apt upgrade -y
       - name: Dist Upgrade
         run: sudo apt dist-upgrade -y
+      - name: Ensure Podman & Buildah are installed
+        run: sudo apt install -y podman buildah
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
