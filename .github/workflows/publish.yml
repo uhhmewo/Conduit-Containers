@@ -14,7 +14,7 @@ jobs:
     container:
       # we don't use ourselves here as that could cause softlocks when building
       image: archlinux/archlinux
-      options: "'--security-opt' 'seccomp=unconfined' '--security-opt' 'label=disable'"
+      options: '--net=host --security-opt label=disable --privileged --security-opt seccomp=unconfined --device /dev/fuse:rw'
       volumes:
         - /run:/run
     steps:
