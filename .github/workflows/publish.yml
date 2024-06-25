@@ -12,6 +12,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     container:
+      # we don't use ourselves here as that could cause softlocks when building
       image: archlinux/archlinux
     steps:
       - name: Setup Container
@@ -27,10 +28,10 @@ jobs:
         run: ./configure --publish
 
       - name: Update Version Number
-        run: pnpm run bash ./img-tools/ci/set-version
+        run: ./img-tools/ci/set-version
 
       - name: Update CI-generated Metadata
-        run: pnpm run bash ./img-tools/ci/update-ci-instructions
+        run: ./img-tools/ci/update-ci-instructions
 
       - name: Pull arch
         run: |
