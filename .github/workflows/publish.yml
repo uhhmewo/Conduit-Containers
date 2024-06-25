@@ -14,12 +14,19 @@ jobs:
     container:
       # we don't use ourselves here as that could cause softlocks when building
       image: archlinux/archlinux
-      options: --net=host --security-opt label=disable --privileged --security-opt seccomp=unconfined --device /dev/fuse:rw
+      options: --privileged
       volumes:
         - /run:/run
+    # services:
+    #   podman:
+    #     image: quay.io/containers/podman:latest
+    #     options: --name=podmanctr --security-opt label=disable --security-opt seccomp=unconfined --device /dev/fuse:rw -v /var/lib/containers:/var/lib/containers:Z --privileged
     steps:
       - name: Setup Container
         run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which --needed --noconfirm
+
+      - name: List Containers
+        run: podman ps -a
 
       - name: Set up rootless environment
         run: |
