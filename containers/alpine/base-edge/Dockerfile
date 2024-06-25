@@ -6,7 +6,7 @@ RUN sh -c 'apk --no-cache update && \
   useradd lain && \
   (mkhomedir_helper lain || true)'
 COPY <<EOT /etc/sudoers.d/lain
-root ALL=(ALL:ALL) NOPASSWD: ALL
+lain ALL=(ALL:ALL) NOPASSWD: ALL
 EOT
 
 FROM scratch
@@ -17,3 +17,6 @@ LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containe
 
 COPY --from=base / /
 USER lain
+ENV HOME="/home/lain"
+ENV USER="lain"
+CMD [ "sh" ]
