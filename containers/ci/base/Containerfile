@@ -7,19 +7,15 @@ LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containe
 # Setup pnpm's environment
 ENV PNPM_HOME=$HOME/.local/share/pnpm
 ENV PATH=$PNPM_HOME:$PATH
-RUN <<EOT
-  mkdir -p $PNPM_HOME
-  chown -R astolfo:astolfo $PNPM_HOME
+RUN mkdir -p $PNPM_HOME && \
+  chown -R astolfo:astolfo $PNPM_HOME && \
   chmod -R 755 $PNPM_HOME
-EOT
 
 # Set up pnpm's zshrc
-RUN <<EOT
-echo -e "# pnpm\nexport PNPM_HOME=\"\$HOME/.local/share/pnpm\"\ncase \":\$PATH:\" in\n  *\":\$PNPM_HOME:\"*) ;;\n  *) export PATH=\"\$PNPM_HOME:\$PATH\" ;;\nesac\n# pnpm end" > $HOME/.pnpm-load
-cat $HOME/.pnpm-load >> $HOME/.zshrc
-# in future, we might wanna add a check for other .rc files
-rm $HOME/.pnpm-load
-EOT
+RUN echo -e "# pnpm\nexport PNPM_HOME=\"\$HOME/.local/share/pnpm\"\ncase \":\$PATH:\" in\n  *\":\$PNPM_HOME:\"*) ;;\n  *) export PATH=\"\$PNPM_HOME:\$PATH\" ;;\nesac\n# pnpm end" > $HOME/.pnpm-load && \
+  cat $HOME/.pnpm-load >> $HOME/.zshrc && \
+  # in future, we might wanna add a check for other .rc files
+  rm $HOME/.pnpm-load
 
 # Install pnpm
 RUN (curl -fLo /tmp/install-pnpm.sh https://get.pnpm.io/install.sh || curl -fLo /tmp/install-pnpm.sh https://raw.githubusercontent.com/pnpm/get.pnpm.io/main/install.sh) && ENV="$HOME/.zshrc" zsh /tmp/install-pnpm.sh && rm /tmp/install-pnpm.sh
