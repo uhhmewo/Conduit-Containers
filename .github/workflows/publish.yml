@@ -48,10 +48,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Setup Version
+      - name: Update Version Number
         run: ./img-tools/ci/setup-version
 
-      - name: Setup Version
+      - name: Update CI-generated Metadata
         run: ./img-tools/ci/update-ci-instructions
 
       - name: Bootstrap
