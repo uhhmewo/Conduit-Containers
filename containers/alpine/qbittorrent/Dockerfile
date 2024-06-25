@@ -1,5 +1,6 @@
 FROM 3xpo/alpine-base
 
+USER root
 RUN apk --no-cache add qbittorrent-nox shadow sudo bash python3
 
 COPY <<EOF "/usr/bin/qb-entrypoint"
