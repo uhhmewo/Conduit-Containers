@@ -173,6 +173,7 @@ handleWillPublish() {
   echo -n "Publishing after build... "
   if [[ "$WILL_PUBLISH" == "true" ]]; then
     echo "yes"
+    WILL_PUBLISH=true
   else
     WILL_PUBLISH=false
     echo "no"

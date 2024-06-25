@@ -9,7 +9,7 @@ USER root
 RUN sudo pacman -Syu --noconfirm --needed luajit git neovim nano
 RUN git clone "https://github.com/prometheus-lua/Prometheus.git" "${PROMETHEUS_INSTALL}"
 COPY files/prometheus /bin/prometheus
-RUN chmod +x /bin/prometheus && mkdir -p /scripts && chown -R lain "${PROMETHEUS_INSTALL}" /home/lain
-USER lain
+RUN chmod +x /bin/prometheus && mkdir -p /scripts && chown -R astolfo "${PROMETHEUS_INSTALL}" /home/astolfo
+USER astolfo
 VOLUME [ "/scripts" ]
 CMD ["/bin/prometheus","--preset","Medium","/scripts/script.lua"]
