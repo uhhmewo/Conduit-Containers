@@ -20,7 +20,10 @@ jobs:
           set -eax
           sudo apt update -y -qq
           sudo apt install -y update-manager-core
-          sed -i s/=lts/=normal/g /etc/update-manager/release-upgrades
+          cat /etc/apt/sources.list
+          echo '.d:'
+          ls /etc/apt/sources.list.d/*
+          cat /etc/apt/sources.list.d/*
           sudo do-release-upgrade
 
       - name: Setup pnpm
