@@ -25,12 +25,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
       - name: Bootstrap
         run: |
           ./bootstrap
@@ -46,6 +40,12 @@ jobs:
       - name: Build Docker images
         run: |
           pnpm run build
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Push to Docker Hub
         run: |
