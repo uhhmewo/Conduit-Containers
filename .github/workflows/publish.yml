@@ -17,16 +17,17 @@ jobs:
 
       - name: Update Buildah
         run: |
-          sudo apt -y install apt-transport-https
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6ED0E7B82643E131 
+          curl -fsSL https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9 -o /tmp/key1.gpg
+          curl -fsSL https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131 -o /tmp/key2.gpg
+          sudo mv /tmp/0x0E98404D386FA1D9.gpg /etc/apt/trusted.gpg.d/
+          sudo mv /tmp/0x6ED0E7B82643E131.gpg /etc/apt/trusted.gpg.d/
           sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'Package: *' > /etc/apt/preferences.d/sid-pinning"
           sudo sh -c "echo 'Pin: release a=unstable' >> /etc/apt/preferences.d/sid-pinning"
           sudo sh -c "echo 'Pin-Priority: 100' >> /etc/apt/preferences.d/sid-pinning"
           sudo apt -y update
-          sudo apt -y install buildah/sid podman/sid
+          sudo apt -y install buildah/sid podman/sid libc-bin/sid libc6/sid
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
