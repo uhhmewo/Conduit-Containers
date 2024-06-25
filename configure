@@ -17,11 +17,11 @@ exists() {
 for arg in "$@"
 do
   case $arg in
-    -o | --oci-ocihost | -O | --oci-builder | --jq | --arch)
+    -o | --oci-host | -O | --oci-builder | --jq | --arch)
       echo "Invalid Syntax: Did you put a space instead of an equals?"
       exit 1;
       ;;
-    -o=* | --oci-ocihost=*)
+    -o=* | --oci-host=*)
       OCI_HOST="${arg#*=}"
       shift
       ;;
@@ -45,7 +45,7 @@ do
       echo -ne "Usage: ./configure [...options]
 
 Options:
-  --oci-ocihost=OCI_HOST -o=OCI_HOST      Specifies which OCI ocihost to use for pushing
+  --oci-host=OCI_HOST -o=OCI_HOST         Specifies which OCI ocihost to use for pushing
                                             to Docker Hub. Defaults to Podman if
                                             installed, otherwise uses Docker.
   --oci-builder=BUILDER -O=BUILDER        Specifies which OCI builder to use for
@@ -56,6 +56,7 @@ Options:
   --arch=ARCH                             Limit to building for the ARCH architecture.
                                             Defaults to your current CPU architecture.
                                             'all' = Not limited.
+                                            'current' = Let OCI Host figure it out
   --publish                               If specified, will publish to Dockerhub.
   --help -h                               Display this help message and exit.
   --license -l                            Display the licence and exit.
