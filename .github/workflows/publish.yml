@@ -24,19 +24,11 @@ jobs:
           wait
           sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
-      - name: Install Buildah build dependencies
+      - name: Upgrade System
         run: |
           set -eax
           sudo apt -y -qq update
-          sudo apt -y install aptitude
-          sudo aptitude -y install bats btrfs-progs git go-md2man golang libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev make skopeo libelf1
-      - name: Build Buildah
-        run: |
-          mkdir -p /tmp/a/b/c
-          git clone https://github.com/containers/buildah /tmp/a/b/c/buildah
-          cd /tmp/a/b/c/buildah
-          make runc all SECURITYTAGS="apparmor seccomp"
-          sudo make install install.runc
+          sudo apt -y dist-upgrade
       # #endregion
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
