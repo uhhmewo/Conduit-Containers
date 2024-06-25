@@ -19,7 +19,7 @@ jobs:
         run: |
           set -eax
           sudo apt update -y -qq
-          sudo apt install -y update-manager-core
+          sudo apt search buildah
           sudo do-release-upgrade
 
       - name: Setup pnpm
