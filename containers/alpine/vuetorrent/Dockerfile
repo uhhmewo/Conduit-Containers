@@ -1,22 +1,22 @@
 FROM docker.io/3xpo/alpine-qb:latest
 
 USER root
-COPY <<EOT /usr/bin/update-vuetorrent-job
+COPY <<EOF /usr/bin/update-vuetorrent-job
 #!/bin/bash
 set -eax
 if [[ "\$AUTO_UPDATE_VUETORRENT" == "true" ]]; then
   crond -b
 fi;
 exec "\$@"
-EOT
-COPY <<EOT /usr/bin/update-vuetorrent
+EOF
+COPY <<EOF /usr/bin/update-vuetorrent
 #!/bin/bash
 set -eax
 git pull
-EOT
-COPY <<EOT /etc/crontabs/qb
+EOF
+COPY <<EOF /etc/crontabs/qb
 0 * * * * /usr/bin/update-vuetorrent
-EOT
+EOF
 COPY <<EOF "${HOME}/.qb-default-config/qBittorrent.conf"
 [BitTorrent]
 Session\\Port=20394

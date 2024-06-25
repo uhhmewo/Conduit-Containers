@@ -5,9 +5,9 @@ RUN sh -c 'apk --no-cache update && \
   apk --no-cache add nano shadow sudo && \
   useradd lain && \
   (mkhomedir_helper lain || true)'
-COPY <<EOT /etc/sudoers.d/lain
+COPY <<EOF /etc/sudoers.d/lain
 lain ALL=(ALL:ALL) NOPASSWD: ALL
-EOT
+EOF
 
 FROM scratch
 

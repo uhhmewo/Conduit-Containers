@@ -7,11 +7,11 @@ LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containe
 ENV PROMETHEUS_INSTALL="${HOME}/Prometheus"
 RUN sudo apk --no-cache add luajit git neovim nano
 RUN git clone "https://github.com/prometheus-lua/Prometheus.git" "${PROMETHEUS_INSTALL}"
-COPY <<EOT /bin/prometheus
+COPY <<EOF /bin/prometheus
 #!/usr/bin/env bash
 luajit "${PROMETHEUS_INSTALL}/cli.lua" \$@;
 exit \$?
-EOT
+EOF
 RUN sudo chmod +x /bin/prometheus
 RUN sudo mkdir -p /scripts
 VOLUME [ "/scripts" ]
