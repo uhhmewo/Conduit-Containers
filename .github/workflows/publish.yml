@@ -17,6 +17,9 @@ jobs:
 
       - name: Update Buildah
         run: |
+          sudo apt -y install apt-transport-https
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6ED0E7B82643E131 
           sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'Package: *' > /etc/apt/preferences.d/sid-pinning"
