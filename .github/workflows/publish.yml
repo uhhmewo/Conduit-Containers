@@ -17,16 +17,15 @@ jobs:
       options: --privileged
       volumes:
         - /run:/run
-    # services:
-    #   podman:
-    #     image: quay.io/containers/podman:latest
-    #     options: --name=podmanctr --security-opt label=disable --security-opt seccomp=unconfined --device /dev/fuse:rw -v /var/lib/containers:/var/lib/containers:Z --privileged
+    services:
+      podman:
+        image: quay.io/containers/podman:latest
+        options: --name=podmanctr --security-opt label=disable --security-opt seccomp=unconfined --device /dev/fuse:rw -v /var/lib/containers:/var/lib/containers:Z --privileged
+        volumes:
+          - /run:/run
     steps:
       - name: Setup Container
         run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which --needed --noconfirm
-
-      - name: Load overlayfs
-        run: modprobe overlay
 
       - name: List Containers
         run: podman ps -a
