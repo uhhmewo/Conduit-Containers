@@ -17,17 +17,13 @@ jobs:
 
       - name: Update Buildah
         run: |
-          curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc
-          curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc
-          sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/
-          sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/
-          sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'Package: *' > /etc/apt/preferences.d/sid-pinning"
-          sudo sh -c "echo 'Pin: release a=unstable' >> /etc/apt/preferences.d/sid-pinning"
-          sudo sh -c "echo 'Pin-Priority: 100' >> /etc/apt/preferences.d/sid-pinning"
-          sudo apt -y update
-          sudo apt -y install buildah/sid podman/sid libc-bin/sid libc6/sid
+          sudo apt -y -qq update
+          sudo apt -y install bats btrfs-progs git go-md2man golang libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev make skopeo
+          git clone https://github.com/containers/buildah /tmp/buildah
+          cd /tmp/buildah
+          make runc all SECURITYTAGS="apparmor seccomp"
+          sudo make install install.runc
+          buildah --help
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
