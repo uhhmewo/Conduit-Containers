@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo sh -c "echo 'deb http://ftp.de.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo apt install sudo build-essential libssl-dev git podman buildah make bash jq -y
+          sudo apt install sudo build-essential libssl-dev git podman/sid buildah/sid make bash jq -y
 
       - name: Tell git to shut up
         run: git config --global --add safe.directory /__w/containers/containers
