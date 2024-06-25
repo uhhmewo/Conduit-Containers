@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.description="Preset Containerd image of Alpine Li
 LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/containers/alpine/prometheus/README.md"
 
 ENV PROMETHEUS_INSTALL="${HOME}/Prometheus"
-RUN apk --no-cache add luajit git neovim nano
+RUN sudo apk --no-cache add luajit git neovim nano
 RUN git clone "https://github.com/prometheus-lua/Prometheus.git" "${PROMETHEUS_INSTALL}"
 COPY <<EOT /bin/prometheus
 #!/usr/bin/env bash
