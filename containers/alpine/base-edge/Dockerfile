@@ -3,9 +3,9 @@ FROM docker.io/alpine:edge AS base
 RUN sh -c 'apk --no-cache update && \
   apk --no-cache upgrade && \
   apk --no-cache add nano shadow sudo && \
-  useradd astolfo && \
-  (mkhomedir_helper astolfo || true)'
-COPY <<EOT /etc/sudoers.d/astolfo
+  useradd lain && \
+  (mkhomedir_helper lain || true)'
+COPY <<EOT /etc/sudoers.d/lain
 root ALL=(ALL:ALL) NOPASSWD: ALL
 EOT
 
@@ -16,4 +16,4 @@ LABEL org.opencontainers.image.description="Preset Containerd image of Alpine Li
 LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/containers/alpine/base-edge/README.md"
 
 COPY --from=base / /
-USER alpine
+USER lain

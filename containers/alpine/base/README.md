@@ -6,6 +6,6 @@ Unlike 3xpo/base (an Arch Linux base), this image is just a more up-to-date alpi
 
 ## User Info
 
-- Username: `astolfo`
+- Username: `lain`
 - Password: None LOL
-- Sudo: Passwordless, remove `/etc/sudoers.d/astolfo` to remove
+- Sudo: Passwordless, remove `/etc/sudoers.d/lain` to remove
