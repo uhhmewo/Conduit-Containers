@@ -140,8 +140,10 @@ handleOCIBuilder() {
       echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (patch version $BUILDAH_MINIMUM_PATCH)" 1>&2
       exit 1;
     fi
+    echo "ok: $OCI_BUILDER (v$BUILDAH_VERSION installed, v$BUILDAH_MINIMUM_VERSION minimum supported)"
+  else
+    echo "ok: $OCI_BUILDER"
   fi;
-  echo "ok: $OCI_BUILDER"
 }
 handleJQ() {
   echo -n "Checking for jq... "
