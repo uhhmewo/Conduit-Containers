@@ -5,6 +5,7 @@ set -e
 export OCI_HOST=""
 export OCI_BUILDER=""
 export JQ=""
+export LIMIT_TO_ARCH=""
 
 # Check if a command exists
 exists() {
@@ -15,7 +16,7 @@ exists() {
 for arg in "$@"
 do
   case $arg in
-    -o | --oci-ocihost | -O | --oci-builder | --jq)
+    -o | --oci-ocihost | -O | --oci-builder | --jq | --arch)
       echo "Invalid Syntax: Did you put a space instead of an equals?"
       exit 1;
       ;;
@@ -31,6 +32,10 @@ do
       JQ="${arg#*=}"
       shift
       ;;
+    --arch=*)
+      ARCH="${arg#*=}"
+      shift
+      ;;
     --help | -h)
       echo -ne "Usage: ./configure [...options]
 
@@ -43,6 +48,8 @@ Options:
                                             podman is the OCI ocihost, otherwise uses
                                             Docker.
   --jq=JQ                                 Specifies which jq executable to use.
+  --arch=ARCH                             Limit to building for the ARCH architecture.
+                                            'all' = Not limited.
   --help -h                               Display this help message and exit.
   --license -l                            Display the licence and exit.
 ";
@@ -130,6 +137,15 @@ handleJQ() {
   fi;
   echo "ok: $JQ"
 }
+handleArch() {
+  echo -n "Limiting to architecture... "
+  if [ -x "$LIMIT_TO_ARCH" ]; then
+    LIMIT_TO_ARCH="all"
+    echo "ok: no limit"
+  else
+    echo "ok: $LIMIT_TO_ARCH"
+  fi;
+}
 handleOCIHost;
 handleOCIBuilder;
 handleJQ;
@@ -137,7 +153,9 @@ handleJQ;
 mkdir -p contrib/config
 echo "OCI_HOST = \"$OCI_HOST\"
 OCI_BUILDER = \"$OCI_BUILDER\"
-JQ = \"$JQ\"" > contrib/config/mk
+JQ = \"$JQ\"
+LIMIT_TO_ARCH = \"$LIMIT_TO_ARCH\"" > contrib/config/mk
 echo "export OCI_HOST=\"$OCI_HOST\"
 export OCI_OCI_BUILDER=\"$OCI_BUILDER\"
-export JQ=\"$JQ\"" > contrib/config/sh
+export JQ=\"$JQ\"
+export LIMIT_TO_ARCH=\"$LIMIT_TO_ARCH\"" > contrib/config/sh
