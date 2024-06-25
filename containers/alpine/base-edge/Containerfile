@@ -9,9 +9,16 @@ COPY ./files/lain-sudoers /etc/sudoers.d/lain
 
 FROM scratch
 
-LABEL org.opencontainers.image.title="Expo's Prometheus Image"
+LABEL org.opencontainers.image.title="Expo's Alpine Edge Base Image"
 LABEL org.opencontainers.image.description="Preset Containerd image of Alpine Linux Stable."
-LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/containers/alpine/base/README.md"
+LABEL org.opencontainers.image.authors="Expo <expo.containers@breadhub.cc>"
+LABEL org.opencontainers.image.url="https://codeberg.org/Expo/containers"
+LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/containers/alpine/base-edge/README.md"
+LABEL org.opencontainers.image.source="https://codeberg.org/Expo/containers"
+LABEL org.opencontainers.image.licenses="MIT"
+#CI:INSERT_VERSION_LABEL
+#CI:INSERT_REVISION_LABEL
+#CI:INSERT_CREATION_LABEL
 
 COPY --from=base / /
 USER lain
