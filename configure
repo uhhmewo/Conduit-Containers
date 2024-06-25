@@ -131,15 +131,15 @@ handleOCIBuilder() {
     BUILDAH_MINIMUM_MINOR="$(awk '{print $2}' <<< "$BUILDAH_MINIMUM_VERSION_SPACES")"
     BUILDAH_MINIMUM_PATCH="$(awk '{print $3}' <<< "$BUILDAH_MINIMUM_VERSION_SPACES")"
     if [[ $BUILDAH_MAJOR -lt $BUILDAH_MINIMUM_MAJOR ]]; then
-      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (major version $BUILDAH_MINIMUM_MAJOR)" 1>&2
+      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (major version $BUILDAH_MAJOR < $BUILDAH_MINIMUM_MAJOR)" 1>&2
       exit 1;
     fi
     if [[ $BUILDAH_MINOR -lt $BUILDAH_MINIMUM_MINOR ]]; then
-      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (minor version $BUILDAH_MINIMUM_MINOR)" 1>&2
+      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (minor version $BUILDAH_MINOR < $BUILDAH_MINIMUM_MINOR)" 1>&2
       exit 1;
     fi
     if [[ $BUILDAH_PATCH -lt $BUILDAH_MINIMUM_PATCH ]]; then
-      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (patch version $BUILDAH_MINIMUM_PATCH)" 1>&2
+      echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (patch version $BUILDAH_PATCH < $BUILDAH_MINIMUM_PATCH)" 1>&2
       exit 1;
     fi
     echo "ok: $OCI_BUILDER (v$BUILDAH_VERSION installed, v$BUILDAH_MINIMUM_VERSION minimum supported)"
