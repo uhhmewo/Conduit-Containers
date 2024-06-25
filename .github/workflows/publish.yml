@@ -18,13 +18,9 @@ jobs:
       - name: Upgrade System
         run: |
           set -eax
+          sudo sed -i s/jammy/noble/g /etc/apt/sources.list
           sudo apt update -y -qq
-          sudo apt install -y update-manager-core
-          cat /etc/apt/sources.list
-          echo '.d:'
-          ls /etc/apt/sources.list.d/*
-          cat /etc/apt/sources.list.d/*
-          sudo do-release-upgrade
+          sudo apt dist-upgrade -y
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
