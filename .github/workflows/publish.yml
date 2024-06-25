@@ -16,7 +16,7 @@ jobs:
       image: archlinux/archlinux
     steps:
       - name: Setup Container
-        run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which newuidmap newgidmap --needed --noconfirm
+        run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which --needed --noconfirm
 
       - name: Set up rootless environment
         run: |
