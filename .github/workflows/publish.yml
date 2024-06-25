@@ -25,6 +25,9 @@ jobs:
       - name: Setup Container
         run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which --needed --noconfirm
 
+      - name: Load overlayfs
+        run: modprobe overlay
+
       - name: List Containers
         run: podman ps -a
 
