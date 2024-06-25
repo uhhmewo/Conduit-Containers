@@ -45,7 +45,7 @@ jobs:
         run: ./bootstrap
 
       - name: Configure
-        run: ./configure --publish
+        run: ./configure --publish --arch=any
 
       - name: Update Version Number
         run: ./img-tools/ci/set-version
