@@ -15,21 +15,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # #region Buildah setup
-      - name: Sid-ify
-        run: |
-          set -eax
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
-          wait
-          sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
       - name: Upgrade System
         run: |
           set -eax
-          sudo apt -y -qq update
-          sudo apt -y dist-upgrade
-      # #endregion
+          sudo apt update -y -qq
+          sudo apt install -y update-manager-core
+          sudo do-release-upgrade
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
