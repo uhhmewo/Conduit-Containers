@@ -12,10 +12,13 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     container:
-      image: debian
+      image: debian:sid
     steps:
+      - name: Update
+        run: apt update && apt upgrade
+
       - name: Install Dependencies
-        run: apt install sudo build-essential libssl-dev git -y
+        run: apt install sudo build-essential libssl-dev git podman buildah -y
 
       - name: Checkout
         uses: actions/checkout@v4
