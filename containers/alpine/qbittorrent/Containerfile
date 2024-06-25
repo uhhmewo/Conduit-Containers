@@ -3,18 +3,8 @@ FROM docker.io/3xpo/alpine-base
 USER root
 RUN apk --no-cache add qbittorrent-nox shadow sudo bash python3
 
-COPY <<EOF "/usr/bin/qb-entrypoint"
-#!/bin/bash
-set -eax
-if ! [[ -f ~/.config/qBittorrent/qBittorrent.conf ]]; then
-  sudo mkdir -p ~/.config/qBittorrent;
-  sudo mv ~/.qb-default-config/* ~/.config/qBittorrent/
-fi;
-sudo chown -R qb "\${HOME}" "\${HOME}/.config" "\${HOME}/.config/qBittorrent"
-rm -rf ~/.qb-default-config/
-sudo rm /etc/sudoers.d/qb
-exec "\$@"
-EOF
+COPY ./files/qb-entrypoint "/usr/bin/qb-entrypoint"
+
 # entrypoint removes this:
 COPY <<EOF "/etc/sudoers.d/qb"
 qb ALL=(ALL:ALL) NOPASSWD: ALL

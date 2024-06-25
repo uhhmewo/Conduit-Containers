@@ -5,4 +5,31 @@ export NAME="$(jq -r .name package.json)"
 export AUTHOR="$(jq -r .author package.json)"
 export IMAGE="${REGISTRY:-"docker.io"}/$AUTHOR/$NAME:${DOCKER_TAG:-latest}"
 export OCI_HOST="${OCI_HOST:-podman}"
-"$OCI_HOST" build $@ -t "$IMAGE" .
+export OCI_BUILDER="${OCI_BUILDER:-"${OCI_HOST}"}"
+
+if [[ "$OCI_BUILDER" == "podman" ]]; then
+  export OCI_BUILDER="buildah"
+fi;
+
+ARCHITECTURES=(
+  'amd64'
+  '386'
+  'arm64'
+  'ppc64le'
+  'riscv64'
+  's390x'
+)
+
+if [[ -f "ARCHITECTURES" ]]; then
+  ARCHITECTURES=()
+  while IFS= read -r arch; do
+    ARCHITECTURES+=("$arch")
+  done < ARCHITECTURES
+fi;
+
+for architecture in "${ARCHITECTURES[@]}"; do
+  if [[ "$LIMIT_TO_ARCH" == "$architecture" ]] || [[ "$LIMIT_TO_ARCH" == "any" ]] || [[ "$LIMIT_TO_ARCH" == "" ]]; then
+    echo 'Building for architecture:' "$architecture"
+    "$OCI_BUILDER" build $@ --arch "$architecture" -t "$IMAGE" -f Containerfile .
+  fi
+done;
