@@ -1,4 +1,4 @@
-FROM 3xpo/base
+FROM docker.io/3xpo/base
 
 LABEL org.opencontainers.image.title="Expo's Arch Linux Base Image"
 LABEL org.opencontainers.image.description="Preset Containerd image of Arch Linux with a general decent baseline flatpak build environment. Based on 3xpo/base."

@@ -1,4 +1,4 @@
-FROM 3xpo/nothing:latest AS base
+FROM docker.io/3xpo/nothing:latest AS base
 
 # Install base packages
 RUN pacman -S --noconfirm --needed base base-devel zsh git openssh sudo curl pacman-contrib

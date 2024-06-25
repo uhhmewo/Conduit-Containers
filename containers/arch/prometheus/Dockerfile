@@ -1,4 +1,4 @@
-FROM 3xpo/minimal-omz
+FROM docker.io/3xpo/minimal-omz
 
 LABEL org.opencontainers.image.title="Expo's Prometheus Image"
 LABEL org.opencontainers.image.description="Preset Containerd image of Arch Linux with prometheus preinstalled."

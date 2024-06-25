@@ -1,4 +1,4 @@
-FROM 3xpo/minimal
+FROM docker.io/3xpo/minimal
 
 LABEL org.opencontainers.image.title="Expo's Arch Linux Minimal Image"
 LABEL org.opencontainers.image.description="Preset Containerd image of Arch Linux with minimal packages installed, without being unusably minimal. Includes OMZ."

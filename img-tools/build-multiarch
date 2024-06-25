@@ -5,4 +5,18 @@ export NAME="$(jq -r .name package.json)"
 export AUTHOR="$(jq -r .author package.json)"
 export IMAGE="${REGISTRY:-"docker.io"}/$AUTHOR/$NAME:${DOCKER_TAG:-latest}"
 export OCI_HOST="${OCI_HOST:-podman}"
-"$OCI_HOST" build $@ -t "$IMAGE" .
+
+ARCHITECTURES=(
+  'amd64'
+  '386'
+  'arm/v6'
+  'arm/v7'
+  'arm64/v8'
+  'ppc64le'
+  'riscv64'
+  's390x'
+)
+
+for architecture in "${ARCHITECTURES[@]}"; do
+  "$OCI_HOST" build $@ --arch "$architecture" -t "$IMAGE" .
+done;
