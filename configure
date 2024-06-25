@@ -45,12 +45,12 @@ do
       echo -ne "Usage: ./configure [...options]
 
 Options:
-  --oci-host=OCI_HOST -o=OCI_HOST         Specifies which OCI ocihost to use for pushing
+  --oci-host=OCI_HOST -o=OCI_HOST         Specifies which OCI host to use for pushing
                                             to Docker Hub. Defaults to Podman if
                                             installed, otherwise uses Docker.
   --oci-builder=BUILDER -O=BUILDER        Specifies which OCI builder to use for
                                             building images. Defaults to Buildah if
-                                            podman is the OCI ocihost, otherwise uses
+                                            podman is the OCI host, otherwise uses
                                             Docker.
   --jq=JQ                                 Specifies which jq executable to use.
   --arch=ARCH                             Limit to building for the ARCH architecture.
