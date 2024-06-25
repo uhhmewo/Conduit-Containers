@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Install Dependencies
         run: |
-          echo 'deb http://ftp.de.debian.org/debian sid main ' >> /etc/apt/sources.list
+          sudo sh -c "echo 'deb http://ftp.de.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo apt install sudo build-essential libssl-dev git podman buildah make bash jq -y
 
       - name: Tell git to shut up
