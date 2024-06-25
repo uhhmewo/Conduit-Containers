@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -121,13 +121,13 @@ handleOCIBuilder() {
   if [[ "$(basename $OCI_BUILDER)" == "buildah" ]]; then
     # We depend on buildah v1.33 or above
     BUILDAH_VERSION="$(buildah --version | awk '{print $3}')"
-    BUILDAH_MAJOR="$((sed 's/\./ /g' <<< "$BUILDAH_VERSION") | awk '{print $1}')"
-    BUILDAH_MINOR="$((sed 's/\./ /g' <<< "$BUILDAH_VERSION") | awk '{print $2}')"
-    BUILDAH_PATCH="$((sed 's/\./ /g' <<< "$BUILDAH_VERSION") | awk '{print $3}')"
+    BUILDAH_MAJOR="$( (sed 's/\./ /g' <<< "$BUILDAH_VERSION") | awk '{print $1}')"
+    BUILDAH_MINOR="$( (sed 's/\./ /g' <<< "$BUILDAH_VERSION") | awk '{print $2}')"
+    BUILDAH_PATCH="$( (sed 's/\./ /g' <<< "$BUILDAH_VERSION") | awk '{print $3}')"
     BUILDAH_MINIMUM_VERSION="1.33.0"
-    BUILDAH_MINIMUM_MAJOR="$((sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION") | awk '{print $1}')"
-    BUILDAH_MINIMUM_MINOR="$((sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION") | awk '{print $2}')"
-    BUILDAH_MINIMUM_PATCH="$((sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION") | awk '{print $3}')"
+    BUILDAH_MINIMUM_MAJOR="$( (sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION") | awk '{print $1}')"
+    BUILDAH_MINIMUM_MINOR="$( (sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION") | awk '{print $2}')"
+    BUILDAH_MINIMUM_PATCH="$( (sed 's/\./ /g' <<< "$BUILDAH_MINIMUM_VERSION") | awk '{print $3}')"
     if [[ $BUILDAH_MAJOR -lt $BUILDAH_MINIMUM_MAJOR ]]; then
       echo "err: buildah $BUILDAH_MINIMUM_VERSION is required, found $BUILDAH_VERSION (major version $BUILDAH_MINIMUM_MAJOR)" 1>&2
       exit 1;
