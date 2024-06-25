@@ -24,7 +24,8 @@ jobs:
           sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo apt -y -qq update
-          sudo apt -y install bats btrfs-progs git go-md2man golang libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev make skopeo
+          sudo apt -y install aptitude
+          sudo aptitude -y install bats btrfs-progs git go-md2man golang libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev make skopeo libelf1
           mkdir -p /tmp/a/b/c
           git clone https://github.com/containers/buildah /tmp/a/b/c/buildah
           cd /tmp/a/b/c/buildah
