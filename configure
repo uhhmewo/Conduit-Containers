@@ -37,9 +37,17 @@ do
       ARCH="${arg#*=}"
       shift
       ;;
-    --publish)
+    --publish | --publish=true)
       WILL_PUBLISH=true
       shift
+      ;;
+    --no-publish | --publish=false)
+      WILL_PUBLISH=false
+      shift
+      ;;
+    --publish=*)
+      echo "Invalid Publish Option: ${arg#*=}"
+      exit 1;
       ;;
     --help | -h)
       echo -ne "Usage: ./configure [...options]
@@ -57,7 +65,9 @@ Options:
                                             Defaults to your current CPU architecture.
                                             'all' = Not limited.
                                             'current' = Let OCI Host figure it out
-  --publish                               If specified, will publish to Dockerhub.
+  --publish --publish=true                If specified, will publish to Dockerhub.
+                                            To explicitly specify not to do this, add
+                                            --no-publish or --publish=false to args
   --help -h                               Display this help message and exit.
   --license -l                            Display the licence and exit.
 ";

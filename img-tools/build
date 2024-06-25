@@ -33,6 +33,9 @@ fi;
 
 buildWith() {
   "$OCI_BUILDER" build $@ -t "$IMAGE" -f Containerfile .
+  if [[ "$WILL_PUBLISH" == "true" ]]; then
+    "$OCI_HOST" push "docker.io/$("$JQ" -r .author package.json)/$("$JQ" -r .name package.json):${DOCKER_TAG:-latest}"
+  fi;
 }
 
 if [[ "$LIMIT_TO_ARCH" == "current" ]]; then
