@@ -171,10 +171,10 @@ handleArch() {
 }
 handleWillPublish() {
   echo -n "Publishing after build... "
-  if [ -x "$LIMIT_TO_ARCH" ]; then
-    LIMIT_TO_ARCH="all"
+  if [[ "$WILL_PUBLISH" == "true" ]]; then
     echo "yes"
   else
+    WILL_PUBLISH=false
     echo "no"
   fi;
 }
