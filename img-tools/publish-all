@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [[ -f "$(dirname $0)/../../contrib/config/sh" ]]; then
-  source "$(dirname $0)/../../contrib/config/sh"
+if [[ -f "$(dirname $0)/../contrib/config/sh" ]]; then
+  source "$(dirname $0)/../contrib/config/sh"
 fi
 
 export OCI_HOST="${OCI_HOST:-podman}"

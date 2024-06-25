@@ -31,9 +31,18 @@ if [[ -f "ARCHITECTURES" ]]; then
   done < ARCHITECTURES
 fi;
 
-for architecture in "${ARCHITECTURES[@]}"; do
-  if [[ "$LIMIT_TO_ARCH" == "$architecture" ]] || [[ "$LIMIT_TO_ARCH" == "any" ]] || [[ "$LIMIT_TO_ARCH" == "" ]]; then
-    echo 'Building for architecture:' "$architecture"
-    "$OCI_BUILDER" build $@ --arch "$architecture" -t "$IMAGE" -f Containerfile .
-  fi
-done;
+buildWith() {
+  "$OCI_BUILDER" build $@ -t "$IMAGE" -f Containerfile .
+}
+
+if [[ "$LIMIT_TO_ARCH" == "current" ]]; then
+  echo "Building for current architecture ($(uname -m))"
+  buildWith $@
+else
+  for architecture in "${ARCHITECTURES[@]}"; do
+    if [[ "$LIMIT_TO_ARCH" == "$architecture" ]] || [[ "$LIMIT_TO_ARCH" == "any" ]]; then
+      echo 'Building for architecture:' "$architecture"
+      buildWith $@ --arch "$architecture"
+    fi
+  done;
+fi

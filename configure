@@ -5,7 +5,8 @@ set -e
 export OCI_HOST=""
 export OCI_BUILDER=""
 export JQ=""
-export LIMIT_TO_ARCH=""
+export LIMIT_TO_ARCH="current"
+export WILL_PUBLISH="false"
 
 # Check if a command exists
 exists() {
@@ -36,6 +37,10 @@ do
       ARCH="${arg#*=}"
       shift
       ;;
+    --publish)
+      WILL_PUBLISH=true
+      shift
+      ;;
     --help | -h)
       echo -ne "Usage: ./configure [...options]
 
@@ -49,7 +54,9 @@ Options:
                                             Docker.
   --jq=JQ                                 Specifies which jq executable to use.
   --arch=ARCH                             Limit to building for the ARCH architecture.
+                                            Defaults to your current CPU architecture.
                                             'all' = Not limited.
+  --publish                               If specified, will publish to Dockerhub.
   --help -h                               Display this help message and exit.
   --license -l                            Display the licence and exit.
 ";
@@ -139,23 +146,37 @@ handleJQ() {
 }
 handleArch() {
   echo -n "Limiting to architecture... "
-  if [ -x "$LIMIT_TO_ARCH" ]; then
-    LIMIT_TO_ARCH="all"
+  if [[ "$LIMIT_TO_ARCH" == "all" ]]; then
     echo "ok: no limit"
+  elif [[ "$LIMIT_TO_ARCH" == "current" ]]; then
+    echo "ok: current ($(uname -m))"
   else
     echo "ok: $LIMIT_TO_ARCH"
+  fi;
+}
+handleWillPublish() {
+  echo -n "Publishing after build... "
+  if [ -x "$LIMIT_TO_ARCH" ]; then
+    LIMIT_TO_ARCH="all"
+    echo "yes"
+  else
+    echo "no"
   fi;
 }
 handleOCIHost;
 handleOCIBuilder;
 handleJQ;
+handleArch;
+handleWillPublish;
 
 mkdir -p contrib/config
 echo "OCI_HOST = \"$OCI_HOST\"
 OCI_BUILDER = \"$OCI_BUILDER\"
 JQ = \"$JQ\"
-LIMIT_TO_ARCH = \"$LIMIT_TO_ARCH\"" > contrib/config/mk
+LIMIT_TO_ARCH = \"$LIMIT_TO_ARCH\"
+WILL_PUBLISH = \"$WILL_PUBLISH\"" > contrib/config/mk
 echo "export OCI_HOST=\"$OCI_HOST\"
 export OCI_OCI_BUILDER=\"$OCI_BUILDER\"
 export JQ=\"$JQ\"
-export LIMIT_TO_ARCH=\"$LIMIT_TO_ARCH\"" > contrib/config/sh
+export LIMIT_TO_ARCH=\"$LIMIT_TO_ARCH\"
+export WILL_PUBLISH=\"$WILL_PUBLISH\"" > contrib/config/sh
