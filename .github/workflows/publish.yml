@@ -15,7 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Update Buildah
+      # #region Buildah setup
+      - name: Sid-ify
         run: |
           set -eax
           (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
@@ -23,15 +24,20 @@ jobs:
           wait
           sudo sh -c "echo 'deb http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://deb.debian.org/debian sid main' >> /etc/apt/sources.list"
+      - name: Install Buildah build dependencies
+        run: |
+          set -eax
           sudo apt -y -qq update
           sudo apt -y install aptitude
           sudo aptitude -y install bats btrfs-progs git go-md2man golang libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev make skopeo libelf1
+      - name: Update Buildah
+        run: |
           mkdir -p /tmp/a/b/c
           git clone https://github.com/containers/buildah /tmp/a/b/c/buildah
           cd /tmp/a/b/c/buildah
           make runc all SECURITYTAGS="apparmor seccomp"
           sudo make install install.runc
-
+      # #endregion
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:

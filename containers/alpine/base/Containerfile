@@ -1,10 +1,10 @@
 FROM docker.io/alpine:latest AS base
 
-RUN sh -c 'apk --no-cache update && \
-  apk --no-cache upgrade && \
-  apk --no-cache add nano shadow sudo && \
-  useradd lain && \
-  (mkhomedir_helper lain || true)'
+RUN sh -c apk --no-cache update
+RUN apk --no-cache upgrade
+RUN apk --no-cache add nano shadow sudo
+RUN useradd lain
+RUN mkhomedir_helper lain || true
 COPY <<EOF /etc/sudoers.d/lain
 lain ALL=(ALL:ALL) NOPASSWD: ALL
 EOF
