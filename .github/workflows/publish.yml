@@ -15,7 +15,7 @@ jobs:
       image: debian:sid
     steps:
       - name: Update
-        run: apt update && apt upgrade
+        run: apt update -y -qq && apt upgrade -y
 
       - name: Install Dependencies
         run: apt install sudo build-essential libssl-dev git podman buildah -y
