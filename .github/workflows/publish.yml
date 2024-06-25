@@ -12,8 +12,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     container:
-      image: ubuntu
+      image: debian
     steps:
+      - name: Install Dependencies
+        run: apt install sudo build-essential libssl-dev git -y
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -25,8 +28,8 @@ jobs:
       #   run: sudo apt upgrade -y
       # - name: Dist Upgrade
       #   run: sudo apt dist-upgrade -y
-      - name: Ensure Podman & Buildah are installed
-        run: sudo apt install -y podman buildah
+      # - name: Ensure Podman & Buildah are installed
+      #   run: sudo apt install -y podman buildah
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
