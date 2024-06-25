@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Dependencieis
         run: |
-          sudo apt install sudo build-essential libssl-dev git podman/sid buildah/sid make bash jq -y
+          sudo apt install sudo build-essential libssl-dev git podman/sid buildah/sid qemu-system/sid qemu-user-static/sid make bash jq -y
 
       - name: Tell git to shut up
         run: git config --global --add safe.directory /__w/containers/containers
