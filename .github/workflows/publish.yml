@@ -15,7 +15,7 @@ jobs:
       image: archlinux/archlinux
     steps:
       - name: Setup Container
-        run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make --needed --noconfirm
+        run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which --needed --noconfirm
 
       - name: Checkout
         uses: actions/checkout@v4
