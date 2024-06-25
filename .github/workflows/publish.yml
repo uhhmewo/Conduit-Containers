@@ -12,9 +12,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Update
-        run: sudo apt update -y -qq && sudo apt upgrade -y
-
       - name: Install Dependencies
         run: sudo apt install sudo build-essential libssl-dev git podman buildah make bash jq -y
 
