@@ -16,7 +16,12 @@ jobs:
       image: archlinux/archlinux
     steps:
       - name: Setup Container
-        run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which --needed --noconfirm
+        run: pacman -Syu sudo nodejs git npm pnpm jq podman buildah bash make which newuidmap newgidmap --needed --noconfirm
+
+      - name: Set up rootless environment
+        run: |
+          echo "kernel.unprivileged_userns_clone=1" | sudo tee /etc/sysctl.d/99-local-userns.conf
+          sudo sysctl --system
 
       - name: Checkout
         uses: actions/checkout@v4
