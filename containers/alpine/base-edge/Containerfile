@@ -5,9 +5,7 @@ RUN apk --no-cache upgrade
 RUN apk --no-cache add nano shadow sudo
 RUN useradd lain
 RUN mkhomedir_helper lain || true
-COPY <<EOF /etc/sudoers.d/lain
-lain ALL=(ALL:ALL) NOPASSWD: ALL
-EOF
+COPY ./files/lain-sudoers /etc/sudoers.d/lain
 
 FROM scratch
 

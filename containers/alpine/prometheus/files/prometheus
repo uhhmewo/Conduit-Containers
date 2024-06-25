@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+luajit "${PROMETHEUS_INSTALL}/cli.lua" $@;
+exit $?

@@ -21,7 +21,7 @@ ARCHITECTURES=(
   'arm64'
   'ppc64le'
   'riscv64'
-  's390x'
+  # 's390x'
 )
 
 if [[ -f "ARCHITECTURES" ]]; then
