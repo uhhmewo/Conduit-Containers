@@ -10,6 +10,7 @@ export AUTHOR="$("$JQ" -r .author package.json)"
 export IMAGE="${REGISTRY:-"docker.io"}/$AUTHOR/$NAME:${DOCKER_TAG:-latest}"
 export OCI_HOST="${OCI_HOST:-podman}"
 export OCI_BUILDER="${OCI_BUILDER:-"${OCI_HOST}"}"
+export DOCKER_BUILDER_NAME="multiarchbuildx$RANDOM"
 
 if [[ "$OCI_BUILDER" == "podman" ]]; then
   export OCI_BUILDER="buildah"
@@ -27,25 +28,81 @@ ARCHITECTURES=(
 if [[ -f "ARCHITECTURES" ]]; then
   ARCHITECTURES=()
   while IFS= read -r arch; do
-    ARCHITECTURES+=("$arch")
+    if [[ "$arch" != "" ]]; then
+      ARCHITECTURES+=("$arch")
+    fi
   done < ARCHITECTURES
 fi;
 
-buildWith() {
-  "$OCI_BUILDER" build $@ -t "$IMAGE" -f Containerfile .
-  if [[ "$WILL_PUBLISH" == "true" ]]; then
-    "$OCI_HOST" push "docker.io/$("$JQ" -r .author package.json)/$("$JQ" -r .name package.json):${DOCKER_TAG:-latest}"
-  fi;
+setup() {
+  if [[ "$(basename $OCI_HOST)" == "docker" ]]; then
+    docker buildx create --use --name "$DOCKER_BUILDER_NAME"
+    docker buildx inspect --bootstrap
+  else
+    "${OCI_HOST}" image rm "$IMAGE" --force || "${OCI_HOST}" manifest rm "$IMAGE" || true
+    "${OCI_HOST}" manifest create "$IMAGE"
+  fi
+}
+buildImage() {
+  if [[ "$(basename "$OCI_BUILDER")" == "buildah" ]] || [[ "$(basename $OCI_BUILDER)" == "podman" ]]; then
+    "$OCI_BUILDER" build $@ -f Containerfile --manifest "$IMAGE" .
+  else
+    ADDITIONAL_DOCKER_ARGS=(
+      "--tag"
+      "$IMAGE"
+      "-f"
+      "Containerfile"
+    )
+    if [[ "$WILL_PUBLISH" == "true" ]]; then
+      ADDITIONAL_DOCKER_ARGS+=(
+        "--output"
+        "type=image,push=true"
+      )
+    fi
+    "$OCI_BUILDER" buildx build $@ ${ADDITIONAL_DOCKER_ARGS[@]} .
+  fi
+}
+postBuild() {
+  if [[ "$(basename $OCI_HOST)" == "docker" ]]; then
+    docker buildx stop "$DOCKER_BUILDER_NAME"
+  else
+    if [[ "$WILL_PUBLISH" == "true" ]]; then
+      "$OCI_HOST" manifest push "$IMAGE"
+    fi
+  fi
 }
 
+setup
 if [[ "$LIMIT_TO_ARCH" == "current" ]]; then
   echo "Building for current architecture ($(uname -m))"
-  buildWith $@
+  buildImage $@
+  postBuild
 else
+  PLATFORM_LIST=""
   for architecture in "${ARCHITECTURES[@]}"; do
-    if [[ "$LIMIT_TO_ARCH" == "$architecture" ]] || [[ "$LIMIT_TO_ARCH" == "any" ]]; then
-      echo 'Building for architecture:' "$architecture"
-      buildWith $@ --arch "$architecture"
+    if [[ "$PLATFORM_LIST" != "" ]]; then
+      PLATFORM_LIST="$PLATFORM_LIST,"
+    fi;
+    if [[ "$architecture" != "win32" ]]; then
+      if [[ "$LIMIT_TO_ARCH" == "all" ]] || [[ "$LIMIT_TO_ARCH" == "any" ]] || [[ "$LIMIT_TO_ARCH" == "$architecture" ]]; then
+        PLATFORM_LIST="${PLATFORM_LIST}linux/${architecture}"
+      fi
     fi
-  done;
+  done
+  if [[ "$PLATFORM_LIST" == "" ]]; then
+    if [[ "$SILENTLY_ERROR_ON_EMPTY_LIST" == "true" ]] || ([[ "$LIMIT_TO_ARCH" != "all" ]] && [[ "$LIMIT_TO_ARCH" != "any" ]] && [[ "$LIMIT_TO_ARCH" != "amd64" ]]); then
+      exit 0
+    else
+      echo "Platform list is empty for ${IMAGE}. Aborting." 1>&2
+      echo "Specify SILENTLY_ERROR_ON_EMPTY_LIST=true to silence this message and exit with code 0" 1>&2
+      echo "> Image has possible architecture list of:"
+      for architecture in "${ARCHITECTURES[@]}"; do
+        echo "> - $architecture"
+      done
+      exit 1
+    fi
+  fi;
+  echo 'Building for architectures:' "$PLATFORM_LIST"
+  buildImage $@ --platform "$PLATFORM_LIST"
+  postBuild
 fi

@@ -166,6 +166,23 @@ handleArch() {
   elif [[ "$LIMIT_TO_ARCH" == "current" ]]; then
     echo "ok: current ($(uname -m))"
   else
+    case "$LIMIT_TO_ARCH" in
+      amd|intel|amd64|x86_64|86_64|i386_64|i686_64|x64|64)
+        LIMIT_TO_ARCH="amd64";
+        ;;
+      i386|i686|x86|86)
+        LIMIT_TO_ARCH="amd64";
+        ;;
+      arm|arm64|aarch64)
+        LIMIT_TO_ARCH="arm64";
+        ;;
+      ppc|ppc64|ppc64le)
+        LIMIT_TO_ARCH="ppc64le";
+        ;;
+      risc|riscv|riscv64)
+        LIMIT_TO_ARCH="riscv64";
+        ;;
+    esac
     echo "ok: $LIMIT_TO_ARCH"
   fi;
 }
@@ -192,7 +209,7 @@ JQ = \"$JQ\"
 LIMIT_TO_ARCH = \"$LIMIT_TO_ARCH\"
 WILL_PUBLISH = \"$WILL_PUBLISH\"" > contrib/config/mk
 echo "export OCI_HOST=\"$OCI_HOST\"
-export OCI_OCI_BUILDER=\"$OCI_BUILDER\"
+export OCI_BUILDER=\"$OCI_BUILDER\"
 export JQ=\"$JQ\"
 export LIMIT_TO_ARCH=\"$LIMIT_TO_ARCH\"
 export WILL_PUBLISH=\"$WILL_PUBLISH\"" > contrib/config/sh
