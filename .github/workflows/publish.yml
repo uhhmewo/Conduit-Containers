@@ -49,7 +49,7 @@ jobs:
           node-version: '20'
 
       - name: Update Version Number
-        run: ./img-tools/ci/setup-version
+        run: ./img-tools/ci/set-version
 
       - name: Update CI-generated Metadata
         run: ./img-tools/ci/update-ci-instructions
