@@ -18,7 +18,7 @@ jobs:
         run: apt update -y -qq && apt upgrade -y
 
       - name: Install Dependencies
-        run: apt install sudo build-essential libssl-dev git podman buildah make bash -y
+        run: apt install sudo build-essential libssl-dev git podman buildah make bash jq -y
 
       - name: Checkout
         uses: actions/checkout@v4
