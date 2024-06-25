@@ -34,7 +34,7 @@ do
       shift
       ;;
     --arch=*)
-      ARCH="${arg#*=}"
+      LIMIT_TO_ARCH="${arg#*=}"
       shift
       ;;
     --publish | --publish=true)
