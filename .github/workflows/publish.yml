@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update
-        run: apt update -y -qq && apt upgrade -y
+        run: sudo apt update -y -qq && sudo apt upgrade -y
 
       - name: Install Dependencies
-        run: apt install sudo build-essential libssl-dev git podman buildah make bash jq -y
+        run: sudo apt install sudo build-essential libssl-dev git podman buildah make bash jq -y
 
       - name: Tell git to shut up
         run: git config --global --add safe.directory /__w/containers/containers
