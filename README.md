@@ -11,19 +11,19 @@ This repository contains Arch Linux Docker base images for my own use, becaues i
 ## Structure
 
 [`containers/`](https://codeberg.org/Expo/Containers/src/branch/master/containers)<br/>
-`​ |- `[`alpine/`](https://codeberg.org/Expo/Containers/src/branch/master/containers/alpine)<br/>
-`​ | ​ ​ This directory contains alpine-based images.`<br/>
-`​ | ​ ​ Some of these are general-purpose, some of these are generic.`<br/>
+`​ |-`[`alpine/`](https://codeberg.org/Expo/Containers/src/branch/master/containers/alpine)<br/>
+`​ | ​ This directory contains alpine-based images.`<br/>
+`​ | ​ Some of these are general-purpose, some of these are generic.`<br/>
 `​ |`<br/>
-`​ |- `[`arch/`](https://codeberg.org/Expo/Containers/src/branch/master/containers/arch)<br/>
-`​ | ​ ​ This directory contains arch-based non-CI images. Whilst these`<br/>
-`​ | ​ ​ images may be used for CI (and are the base for many CI images),`<br/>
-`​ | ​ ​ that's not their main purpose.`<br/>
+`​ |-`[`arch/`](https://codeberg.org/Expo/Containers/src/branch/master/containers/arch)<br/>
+`​ | ​ This directory contains arch-based non-CI images. Whilst these`<br/>
+`​ | ​ images may be used for CI (and are the base for many CI images),`<br/>
+`​ | ​ that's not their main purpose.`<br/>
 `​ |`<br/>
-`​ |- `[`ci/`](https://codeberg.org/Expo/Containers/src/branch/master/containers/ci)<br/>
-`​ | ​ ​ This directory contains images specifically designed for CI use.`<br/>
-`​ | ​ ​ Excluding 'minimal' and 'minimal-omz', all images here have node`<br/>
-`​ | ​ ​ preinstalled, as most actions require it in a CI env.`<br/>
+`​ |-`[`ci/`](https://codeberg.org/Expo/Containers/src/branch/master/containers/ci)<br/>
+`​ | ​ This directory contains images specifically designed for CI use.`<br/>
+`​ | ​ Excluding 'minimal' and 'minimal-omz', all images here have node`<br/>
+`​ | ​ preinstalled, as most actions require it in a CI env.`<br/>
 
 ## Users
 
