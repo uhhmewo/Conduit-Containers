@@ -1,10 +1,14 @@
 #!/bin/bash
 set -eax
-if ! [[ -f ~/.config/qBittorrent/qBittorrent.conf ]]; then
-  sudo mkdir -p ~/.config/qBittorrent;
-  sudo mv ~/.qb-default-config/* ~/.config/qBittorrent/
-fi;
-sudo chown -R qb "${HOME}" "${HOME}/.config" "${HOME}/.config/qBittorrent"
-rm -rf ~/.qb-default-config/
-sudo rm /etc/sudoers.d/qb
+if [[ -f /etc/sudoers.d/qb ]]; then
+  if ! [[ -f ~/.config/qBittorrent/qBittorrent.conf ]]; then
+    sudo mkdir -p ~/.config/qBittorrent;
+    sudo mv ~/.qb-default-config/* ~/.config/qBittorrent/
+  fi;
+  sudo chown -R qb "${HOME}" "${HOME}/.config" "${HOME}/.config/qBittorrent"
+  rm -rf ~/.qb-default-config/
+  sudo rm /etc/sudoers.d/qb
+else
+  echo "Warning: Sudoers file was not found. If /etc/sudoers.d is a volume, or the image was tampered with, this is expected. Otherwise, glhf debugging this one." 1>&2
+fi
 exec "$@"
