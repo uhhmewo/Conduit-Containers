@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eax
-if [[ -f /etc/sudoers.d/qb ]]; then
+if [[ -f /etc/sudoers.d/qb ]] && sudo echo hi 2>/dev/null; then
   if ! [[ -f ~/.config/qBittorrent/qBittorrent.conf ]]; then
     sudo mkdir -p ~/.config/qBittorrent;
     sudo mv ~/.qb-default-config/* ~/.config/qBittorrent/
@@ -9,6 +9,6 @@ if [[ -f /etc/sudoers.d/qb ]]; then
   rm -rf ~/.qb-default-config/
   sudo rm /etc/sudoers.d/qb
 else
-  echo "Warning: Sudoers file was not found. If /etc/sudoers.d is a volume, the container was just restarted after already having run (rather than being ran fresh), or the image was tampered with, this is expected. Otherwise, glhf debugging this one." 1>&2
+  echo "Warning: Sudoers file was not found or sudo failed to run. If /etc/sudoers.d is a volume, the container was just restarted after already having run (rather than being ran fresh), or the image was tampered with, this is expected. Otherwise, glhf debugging this one." 1>&2
 fi
 exec "$@"
