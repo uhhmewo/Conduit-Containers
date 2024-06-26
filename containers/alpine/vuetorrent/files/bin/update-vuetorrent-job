@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eax
-if [[ "\$AUTO_UPDATE_VUETORRENT" == "true" ]]; then
+if [[ "$AUTO_UPDATE_VUETORRENT" == "true" ]]; then
   crond -b
 fi;
-exec "\$@"
+exec $@
