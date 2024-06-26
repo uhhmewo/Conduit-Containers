@@ -8,7 +8,7 @@ ENV PROMETHEUS_INSTALL="${HOME}/Prometheus"
 USER root
 RUN sudo pacman -Syu --noconfirm --needed luajit git neovim nano
 RUN git clone "https://github.com/prometheus-lua/Prometheus.git" "${PROMETHEUS_INSTALL}"
-COPY files/prometheus /bin/prometheus
+COPY ./files/prometheus /bin/prometheus
 RUN chmod +x /bin/prometheus && mkdir -p /scripts && chown -R astolfo "${PROMETHEUS_INSTALL}" /home/astolfo
 USER astolfo
 VOLUME [ "/scripts" ]

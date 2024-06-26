@@ -6,7 +6,7 @@ RUN apk --no-cache add qbittorrent-nox shadow sudo bash python3
 COPY ./files/qb-entrypoint "/usr/bin/qb-entrypoint"
 
 # entrypoint removes this:
-COPY files/temp-sudoers-qb "/etc/sudoers.d/qb"
+COPY ./files/temp-sudoers-qb "/etc/sudoers.d/qb"
 
 ENV HOME="/home/qb"
 RUN useradd qb
@@ -15,7 +15,7 @@ USER qb
 ENV DOWNLOADS="${HOME}/Downloads"
 WORKDIR "${HOME}"
 RUN mkdir -p "${DOWNLOADS}" "${HOME}/.qb-default-config"
-COPY files/qBittorrent.conf "${HOME}/.qb-default-config/qBittorrent.conf"
+COPY ./files/qBittorrent.conf "${HOME}/.qb-default-config/qBittorrent.conf"
 RUN rm -rf "${HOME}/.config/qBittorrent"
 EXPOSE 8080
 VOLUME [ "${HOME}/.config/qBittorrent", "${DOWNLOADS}", "${HOME}/.local/share/qBittorrent" ]
