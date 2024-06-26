@@ -1,5 +1,9 @@
 FROM docker.io/3xpo/alpine-qb:latest
 
+ENV VUETORRENT_UPSTREAM="https://github.com/VueTorrent/VueTorrent.git"
+ENV VUETORRENT_INSTALL_DIR="${HOME}/vuetorrent"
+ENV VUETORRENT_BRANCH="latest-release"
+
 USER root
 COPY ./files/bin/update-vuetorrent-job /usr/bin/update-vuetorrent-job
 COPY ./files/bin/update-vuetorrent /usr/bin/update-vuetorrent
@@ -7,6 +11,6 @@ COPY ./files/crontabs/qb /etc/crontabs/qb
 COPY ./files/qBittorrent.conf "${HOME}/.qb-default-config/qBittorrent.conf"
 RUN apk --no-cache add git sed && chmod +x /usr/bin/update-vuetorrent-job /usr/bin/update-vuetorrent /etc/crontabs/qb && sed -i 's|VUETORRENT_INSTALL_DIR|${HOME}/vuetorrent|g' "${HOME}/.qb-default-config/qBittorrent.conf"
 USER qb
-RUN git clone --single-branch --branch latest-release https://github.com/VueTorrent/VueTorrent.git "${HOME}/vuetorrent"
+RUN git clone --single-branch --branch "${VUETORRENT_BRANCH}" "${VUETORRENT_UPSTREAM}" "${VUETORRENT_INSTALL_DIR}" || git clone --single-branch --branch "${VUETORRENT_BRANCH}" "${VUETORRENT_UPSTREAM}" "${VUETORRENT_INSTALL_DIR}" || git clone --single-branch --branch "${VUETORRENT_BRANCH}" "${VUETORRENT_UPSTREAM}" "${VUETORRENT_INSTALL_DIR}"
 
 CMD [ "/usr/bin/update-vuetorrent-job", "/usr/bin/qbittorrent-nox" ]
