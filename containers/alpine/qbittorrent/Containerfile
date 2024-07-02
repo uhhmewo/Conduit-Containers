@@ -2,7 +2,11 @@ ARG ALPINE_RELEASE_CHANNEL="latest"
 FROM docker.io/3xpo/alpine-base:${ALPINE_RELEASE_CHANNEL}
 
 USER root
-RUN apk --no-cache add qbittorrent-nox shadow sudo bash python3
+RUN apk --no-cache add shadow
+RUN apk --no-cache add bash
+RUN apk --no-cache add sudo
+RUN apk --no-cache add python3
+RUN apk --no-cache add qbittorrent-nox
 
 COPY ./files/qb-entrypoint "/usr/bin/qb-entrypoint"
 
