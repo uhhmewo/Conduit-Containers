@@ -15,10 +15,12 @@ ENV CONDUIT_PORT=6167 \
 # Conduit needs:
 #   ca-certificates: for https
 #   iproute2: for `ss` for the healthcheck script
-RUN sudo apk add --no-cache \
+USER root
+RUN apk add --no-cache \
   ca-certificates \
   iproute2 \
   libc++
+USER lain
 
 # Metadata
 ENV SOURCE="https://gitlab.com/famedly/conduit.git"
@@ -35,7 +37,8 @@ LABEL org.opencontainers.image.title="Conduit" \
 FROM base AS builder
 
 # Install Dependencies
-RUN sudo apk add --no-cache \
+USER root
+RUN apk add --no-cache \
   git \
   cargo \
   rust \
@@ -44,9 +47,10 @@ RUN sudo apk add --no-cache \
   linux-headers
 
 # Clone Conduit
-USER lain
 WORKDIR "${HOME}"
-RUN sudo chown -R "${USER}:${USER}" "${HOME}"
+USER root
+RUN chown -R "${USER}:${USER}" "${HOME}"
+USER lain
 RUN git clone "${SOURCE}" "${HOME}/conduit" --depth 3 --recursive --branch "${BRANCH}"
 WORKDIR "${HOME}/conduit"
 RUN cargo build "--${TARGET}"
@@ -64,17 +68,21 @@ VOLUME [ "${CONDUIT_DATABASE_PATH}" ]
 COPY --chown=lain:lain ./files/healthcheck.sh /srv/conduit/healthcheck.sh
 HEALTHCHECK --start-period=5s --interval=5s CMD ./healthcheck.sh
 
+USER root
+
 # Change ownership of Conduit files to conduit user and group
-RUN sudo chown -cR lain:lain /srv/conduit && \
-  sudo chmod +x /srv/conduit/healthcheck.sh && \
-  sudo mkdir -p "${CONDUIT_DATABASE_PATH}" && \
-  sudo chown -cR lain:lain "${CONDUIT_DATABASE_PATH}"
+RUN chown -cR lain:lain /srv/conduit && \
+  chmod +x /srv/conduit/healthcheck.sh && \
+  mkdir -p "${CONDUIT_DATABASE_PATH}" && \
+  chown -cR lain:lain "${CONDUIT_DATABASE_PATH}"
 
 # Set container home directory
 WORKDIR /srv/conduit
 
 # Remove priveleges
-RUN sudo rm /etc/sudoers.d/lain
+RUN rm /etc/sudoers.d/lain
+
+USER lain
 
 COPY --from=builder "${HOME}/conduit/target/${TARGET}/conduit" "/srv/conduit/conduit"
 
