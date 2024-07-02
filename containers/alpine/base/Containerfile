@@ -5,6 +5,7 @@ RUN apk --no-cache upgrade
 RUN apk --no-cache add nano shadow sudo
 RUN useradd lain
 RUN mkhomedir_helper lain || true
+RUN chown -R lain:lain /home/lain
 COPY ./files/lain-sudoers /etc/sudoers.d/lain
 
 FROM scratch
@@ -24,4 +25,5 @@ COPY --from=base / /
 USER lain
 ENV HOME="/home/lain"
 ENV USER="lain"
+WORKDIR /home/lain
 CMD [ "sh" ]
