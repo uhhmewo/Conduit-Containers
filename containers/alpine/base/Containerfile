@@ -1,4 +1,5 @@
-FROM docker.io/alpine:latest AS base
+ARG ALPINE_RELEASE_CHANNEL="latest"
+FROM docker.io/alpine:${ALPINE_RELEASE_CHANNEL} AS base
 
 RUN apk --no-cache update
 RUN apk --no-cache upgrade
