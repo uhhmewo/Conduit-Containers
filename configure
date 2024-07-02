@@ -7,6 +7,7 @@ export OCI_BUILDER=""
 export JQ=""
 export LIMIT_TO_ARCH="current"
 export WILL_PUBLISH="false"
+export DEFAULT_PULL_POLICY="never"
 
 # Check if a command exists
 exists() {
@@ -43,6 +44,11 @@ do
       ;;
     --no-publish | --publish=false)
       WILL_PUBLISH=false
+      shift
+      ;;
+    --default-pull-policy=always | --default-pull-policy=missing | --default-pull-policy=never | --default-pull-policy=newer)
+      # TODO: document this ^
+      DEFAULT_PULL_POLICY="${arg#*=}"
       shift
       ;;
     --publish=*)
@@ -207,9 +213,11 @@ echo "OCI_HOST = \"$OCI_HOST\"
 OCI_BUILDER = \"$OCI_BUILDER\"
 JQ = \"$JQ\"
 LIMIT_TO_ARCH = \"$LIMIT_TO_ARCH\"
-WILL_PUBLISH = \"$WILL_PUBLISH\"" > contrib/config/mk
+WILL_PUBLISH = \"$WILL_PUBLISH\"
+DEFAULT_PULL_POLICY = \"$DEFAULT_PULL_POLICY\"" > contrib/config/mk
 echo "export OCI_HOST=\"$OCI_HOST\"
 export OCI_BUILDER=\"$OCI_BUILDER\"
 export JQ=\"$JQ\"
 export LIMIT_TO_ARCH=\"$LIMIT_TO_ARCH\"
-export WILL_PUBLISH=\"$WILL_PUBLISH\"" > contrib/config/sh
+export WILL_PUBLISH=\"$WILL_PUBLISH\"
+export DEFAULT_PULL_POLICY=\"$DEFAULT_PULL_POLICY\"" > contrib/config/sh

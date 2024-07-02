@@ -73,7 +73,7 @@ runCompleteBuild() {
         )
       else
         ADDITIONAL_BUILDAH_ARGS+=(
-          "--pull=never"
+          "--pull=${DEFAULT_PULL_POLICY}"
         )
       fi
       "$OCI_BUILDER" build $@ ${ADDITIONAL_BUILD_ARGS[@]} ${ADDITIONAL_BUILDAH_ARGS[@]} -f Containerfile --manifest "${IMAGE}:${TAG}" .
