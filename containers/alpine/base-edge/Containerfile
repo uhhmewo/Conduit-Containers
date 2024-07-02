@@ -26,4 +26,5 @@ USER lain
 ENV HOME="/home/lain"
 ENV USER="lain"
 WORKDIR /home/lain
+ONBUILD RUN echo "DEPRECATED: This image is deprecated! Use 3xpo/base-alpine:edge instead! This image will be removed in the near future." 1>&2
 CMD [ "sh" ]
