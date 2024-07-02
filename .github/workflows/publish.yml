@@ -87,4 +87,4 @@ jobs:
 
       - name: Build & Push Docker images
         run: |
-          make build
+          pnpm build --output-style stream
