@@ -1,8 +1,13 @@
-FROM docker.io/3xpo/alpine-qb:latest
+ARG RELEASE_CHANNEL="latest"
+FROM docker.io/3xpo/alpine-qb:${RELEASE_CHANNEL}
+
+ARG RELEASE_CHANNEL="latest"
+ARG RELEASE_BRANCH="latest-release"
 
 ENV VUETORRENT_UPSTREAM="https://github.com/VueTorrent/VueTorrent.git"
 ENV VUETORRENT_INSTALL_DIR="${HOME}/vuetorrent"
-ENV VUETORRENT_BRANCH="latest-release"
+ENV VUETORRENT_BRANCH="${RELEASE_BRANCH}"
+ENV IMAGE_RELEASE_CHANNEL="${RELEASE_CHANNEL}"
 
 USER root
 COPY ./files/bin/update-vuetorrent-job /usr/bin/update-vuetorrent-job

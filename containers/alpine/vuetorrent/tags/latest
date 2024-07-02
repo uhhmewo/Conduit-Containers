@@ -1,0 +1,2 @@
+--build-arg=RELEASE_CHANNEL=latest
+--build-arg=RELEASE_BRANCH=latest-release
