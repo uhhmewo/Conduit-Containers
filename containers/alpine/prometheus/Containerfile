@@ -6,7 +6,9 @@ LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containe
 
 ENV PROMETHEUS_INSTALL="${HOME}/Prometheus"
 USER root
-RUN ([[ "$(arch)" != "riscv64" ]] && apk --no-cache add luajit || apk --no-cache add lua5.1) && apk --no-cache add git nano
+RUN [[ "$(arch)" != "riscv64" ]] && apk --no-cache add luajit || apk --no-cache add lua5.1
+RUN apk --no-cache add git
+RUN apk --no-cache add nano
 RUN git clone "https://github.com/prometheus-lua/Prometheus.git" "${PROMETHEUS_INSTALL}"
 COPY ./files/prometheus /bin/prometheus
 RUN chmod +x /bin/prometheus && mkdir -p /scripts && chown -R lain /home/lain "${PROMETHEUS_INSTALL}"
