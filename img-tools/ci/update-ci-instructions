@@ -5,6 +5,11 @@ if [[ -f "$(dirname $0)/../../contrib/config/sh" ]]; then
 fi
 
 set -ea
-pnpm nx exec -- sed -i "s/#CI:INSERT_VERSION_LABEL/LABEL org.opencontainers.image.version=\"$("$JQ" -r .version package.json)\"/g" Containerfile
+# pnpm nx exec -- sed -i "s/#CI:INSERT_VERSION_LABEL/LABEL org.opencontainers.image.version=\"$("$JQ" -r .version package.json)\"/g" Containerfile
+# pnpm nx exec -- sed -i "s/#CI:INSERT_REVISION_LABEL/LABEL org.opencontainers.image.revision=\"$(git rev-parse HEAD)\"/g" Containerfile
+# pnpm nx exec -- sed -i "s/#CI:INSERT_CREATION_LABEL/LABEL org.opencontainers.image.created=\"$(date +%Y-%m-%dT%H:%M:%S)\"/g" Containerfile
+
+# To make builds only change when needed, we don't do the above
+pnpm nx exec -- sed -i "s/#CI:INSERT_VERSION_LABEL/LABEL org.opencontainers.image.version=\"rolling\"/g" Containerfile
 pnpm nx exec -- sed -i "s/#CI:INSERT_REVISION_LABEL/LABEL org.opencontainers.image.revision=\"$(git rev-parse HEAD)\"/g" Containerfile
-pnpm nx exec -- sed -i "s/#CI:INSERT_CREATION_LABEL/LABEL org.opencontainers.image.created=\"$(date +%Y-%m-%dT%H:%M:%S)\"/g" Containerfile
+pnpm nx exec -- sed -i "s/#CI:INSERT_CREATION_LABEL/LABEL org.opencontainers.image.created=\"$(date +%Y-%m)-00T00:00:00\"/g" Containerfile
