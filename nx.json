@@ -8,7 +8,9 @@
         "{projectRoot}/Containerfile",
         "{projectRoot}/package.json",
         "{projectRoot}/files",
-        "{projectRoot}/ARCHITECTURES"
+        "{projectRoot}/tags",
+        "{projectRoot}/ARCHITECTURES",
+        "{projectRoot}/PULL-POLICY"
       ],
       "dependsOn": ["^build"]
     },
