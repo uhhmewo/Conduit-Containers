@@ -22,6 +22,12 @@ importers:
 
   containers/alpine/base-edge: {}
 
+  containers/alpine/conduit:
+    dependencies:
+      alpine-base:
+        specifier: workspace:*
+        version: link:../base
+
   containers/alpine/prometheus:
     dependencies:
       alpine-base:

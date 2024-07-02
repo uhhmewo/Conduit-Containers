@@ -1,0 +1,83 @@
+FROM docker.io/3xpo/alpine-base:edge AS base
+
+ARG DEFAULT_DB_PATH=/var/lib/matrix-conduit
+ARG BUILD_USING_BRANCH="master"
+ARG BUILD_USING_TARGET="release"
+
+ENV CONDUIT_PORT=6167 \
+  CONDUIT_ADDRESS="0.0.0.0" \
+  CONDUIT_DATABASE_PATH="${DEFAULT_DB_PATH}" \
+  BRANCH="${BUILD_USING_BRANCH}" \
+  TARGET="${BUILD_USING_TARGET}" \
+  CONDUIT_CONFIG=''
+#    └─> Set no config file to do all configuration with env vars
+
+# Conduit needs:
+#   ca-certificates: for https
+#   iproute2: for `ss` for the healthcheck script
+RUN sudo apk add --no-cache \
+  ca-certificates \
+  iproute2 \
+  libc++
+
+# Metadata
+ENV SOURCE="https://gitlab.com/famedly/conduit.git"
+LABEL org.opencontainers.image.title="Conduit" \
+  org.opencontainers.image.description="A Matrix homeserver written in Rust" \
+  org.opencontainers.image.url="https://conduit.rs/" \
+  org.opencontainers.image.source="${SOURCE}" \
+  org.opencontainers.image.licenses="Apache-2.0" \
+  org.opencontainers.image.documentation="https://gitlab.com/famedly/conduit"
+
+### ------ Builder ------ ###
+
+
+FROM base AS builder
+
+# Install Dependencies
+RUN sudo apk add --no-cache \
+  git \
+  cargo \
+  rust \
+  clang18 clang18-libs clang18-libclang \
+  g++ \
+  linux-headers
+
+# Clone Conduit
+USER lain
+WORKDIR "${HOME}"
+RUN sudo chown -R "${USER}:${USER}" "${HOME}"
+RUN git clone "${SOURCE}" "${HOME}/conduit" --depth 3 --recursive --branch "${BRANCH}"
+WORKDIR "${HOME}/conduit"
+RUN cargo build "--${TARGET}"
+
+
+### ------ Final Image ------ ###
+
+
+FROM base
+
+EXPOSE 6167
+VOLUME [ "${CONDUIT_DATABASE_PATH}" ]
+
+# Test if Conduit is still alive, uses the same endpoint as Element
+COPY --chown=lain:lain ./files/healthcheck.sh /srv/conduit/healthcheck.sh
+HEALTHCHECK --start-period=5s --interval=5s CMD ./healthcheck.sh
+
+# Change ownership of Conduit files to conduit user and group
+RUN sudo chown -cR lain:lain /srv/conduit && \
+  sudo chmod +x /srv/conduit/healthcheck.sh && \
+  sudo mkdir -p "${CONDUIT_DATABASE_PATH}" && \
+  sudo chown -cR lain:lain "${CONDUIT_DATABASE_PATH}"
+
+# Set container home directory
+WORKDIR /srv/conduit
+
+# Remove priveleges
+RUN sudo rm /etc/sudoers.d/lain
+
+COPY --from=builder "${HOME}/conduit/target/${TARGET}/conduit" "/srv/conduit/conduit"
+
+# Run Conduit and print backtraces on panics
+ENV RUST_BACKTRACE=1
+ENTRYPOINT [ "/srv/conduit/conduit" ]
