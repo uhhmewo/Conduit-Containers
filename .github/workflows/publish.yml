@@ -90,6 +90,6 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Publish Images
-        rn: |
+        run: |
           chmod +x /tmp/deploy.sh
           /tmp/deploy.sh
