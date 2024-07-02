@@ -6,7 +6,6 @@ RUN apk --no-cache upgrade
 RUN apk --no-cache add nano shadow sudo
 RUN useradd lain
 RUN mkhomedir_helper lain || true
-RUN chown -R lain:lain /home/lain
 COPY ./files/lain-sudoers /etc/sudoers.d/lain
 
 FROM scratch
@@ -23,6 +22,7 @@ LABEL org.opencontainers.image.licenses="MIT"
 #CI:INSERT_CREATION_LABEL
 
 COPY --from=base / /
+RUN chown -R lain:lain /home/lain
 USER lain
 ENV HOME="/home/lain"
 ENV USER="lain"
