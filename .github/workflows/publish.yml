@@ -63,7 +63,7 @@ jobs:
         run: ./bootstrap
 
       - name: Configure
-        run: ./configure --publish --arch=any
+        run: ./configure --arch=any
 
       - name: Update Version Number
         run: ./img-tools/ci/set-version
@@ -79,12 +79,17 @@ jobs:
         run: |
           podman pull docker.io/alpine:latest
 
+      - name: Build OCI images
+        run: |
+          WRITE_TO_PUSH_SCRIPT=/tmp/deploy.sh pnpm build --output-style stream
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build & Push Docker images
-        run: |
-          pnpm build --output-style stream
+      - name: Publish Images
+        rn: |
+          chmod +x /tmp/deploy.sh
+          /tmp/deploy.sh
