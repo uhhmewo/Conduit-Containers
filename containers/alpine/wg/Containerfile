@@ -1,4 +1,4 @@
-FROM docker.io/3xpo/alpine-base
+FROM docker.io/3xpo/alpine-base:latest
 
 USER root
 COPY ./files/wg-setup.sh /bin/wrapwg

@@ -1,4 +1,4 @@
-FROM docker.io/3xpo/alpine-base
+FROM docker.io/3xpo/alpine-base:latest
 
 LABEL org.opencontainers.image.title="Expo's Prometheus Image"
 LABEL org.opencontainers.image.description="Preset Containerd image of Alpine Linux with prometheus preinstalled."
