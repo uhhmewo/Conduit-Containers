@@ -51,7 +51,7 @@ RUN chown -R "${USER}:${USER}" "${HOME}"
 USER lain
 RUN git clone "${SOURCE}" "${HOME}/conduit" --depth 3 --recursive --branch "${BRANCH}"
 WORKDIR "${HOME}/conduit"
-RUN cargo build "--${TARGET}"
+RUN sh -c "if [[ '${TARGET}' == 'release' ]]; then cargo build --release; elif [[ '${TARGET}' == 'debug' ]]; then cargo build; else cargo build --profile '${TARGET}'; fi"
 
 
 ### ------ Final Image ------ ###

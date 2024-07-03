@@ -1,1 +1,2 @@
---build-arg=BRANCH=master
+--build-arg=BUILD_USING_BRANCH=master
+--build-arg=BUILD_USING_TARGET=release
