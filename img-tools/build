@@ -21,23 +21,28 @@ if [[ "$OCI_BUILDER" == "podman" ]]; then
   export OCI_BUILDER="buildah"
 fi;
 
-ARCHITECTURES=(
-  'amd64'
-  '386'
-  'arm64'
-  'ppc64le'
-  'riscv64'
-  # 's390x'
-)
+ARCHITECTURES=()
+updateArchitectures() {
+  ARCHITECTURES=(
+    'amd64'
+    '386'
+    'arm64'
+    'ppc64le'
+    'riscv64'
+    # 's390x'
+  )
 
-if [[ -f "ARCHITECTURES" ]]; then
-  ARCHITECTURES=()
-  while IFS= read -r arch; do
-    if [[ "$arch" != "" ]]; then
-      ARCHITECTURES+=("$arch")
-    fi
-  done < ARCHITECTURES
-fi;
+  ARCHFILE="$1.ARCHITECTURES"
+  if ! [[ -f "$ARCHFILE" ]]; then ARCHFILE="ARCHITECTURES"; fi;
+  if [[ -f "$ARCHFILE" ]]; then
+    ARCHITECTURES=()
+    while IFS= read -r arch; do
+      if [[ "$arch" != "" ]]; then
+        ARCHITECTURES+=("$arch")
+      fi
+    done < "$ARCHFILE"
+  fi;
+}
 
 TAGS=(
   'latest'
@@ -146,5 +151,6 @@ runCompleteBuild() {
   fi
 }
 for TAG in "${TAGS[@]}"; do
+  updateArchitectures $TAG
   runCompleteBuild
 done;
