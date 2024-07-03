@@ -16,9 +16,8 @@ ENV CONDUIT_PORT=6167 \
 #   ca-certificates: for https
 #   iproute2: for `ss` for the healthcheck script
 USER root
-RUN apk add --no-cache ca-certificates
-RUN apk add --no-cache iproute2
-RUN apk add --no-cache libc++
+RUN apk add --no-cache ca-certificates iproute2
+RUN apk add --no-cache libc++ clang18 clang18-libs clang18-libclang g++
 USER lain
 
 # Metadata
@@ -38,10 +37,7 @@ FROM base AS builder
 # Install Dependencies
 USER root
 RUN apk add --no-cache git
-RUN apk add --no-cache cargo
-RUN apk add --no-cache rust
-RUN apk add --no-cache clang18 clang18-libs clang18-libclang
-RUN apk add --no-cache g++
+RUN apk add --no-cache cargo rust
 RUN apk add --no-cache linux-headers
 
 # Clone Conduit
