@@ -1,0 +1,25 @@
+FROM docker.io/3xpo/base AS cinny
+
+# Prepare Env
+ARG BUILD_TAG="latest"
+WORKDIR "${HOME}"
+RUN pnpm i -g yarn
+
+# Clone Cinny
+RUN git clone "https://github.com/cinnyapp/cinny.git" "${HOME}/cinny-web" --recursive
+WORKDIR "${HOME}/cinny-web"
+
+# Select the right tag
+RUN sh -c "if [[ '${BUILD_TAG}' == 'latest' ]]; then GIT_TAG=\$(git tag | sort -V | grep -v rc | grep -v alpha | grep -v beta | tail -n 1); echo \"Using version \$GIT_TAG\"; git reset --hard \$GIT_TAG; elif [[ '${BUILD_TAG}' == 'rc' ]]; then GIT_TAG=\$(git describe --tags --abbrev=0); echo \"Using version \$GIT_TAG\"; git reset --hard \$GIT_TAG; fi"
+
+# Install Deps
+RUN yarn
+
+# Build
+RUN yarn build
+
+# Move to /cinny-web
+RUN sudo mv "${HOME}/cinny-web/dist" /cinny-web
+
+FROM scratch
+COPY --from=cinny /cinny-web/ /

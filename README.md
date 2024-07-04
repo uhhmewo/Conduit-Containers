@@ -24,6 +24,9 @@ This repository contains Arch Linux Docker base images for my own use, becaues i
 `​ | ​ This directory contains images specifically designed for CI use.`<br/>
 `​ | ​ Excluding 'minimal' and 'minimal-omz', all images here have node`<br/>
 `​ | ​ preinstalled, as most actions require it in a CI env.`<br/>
+`​ |`<br/>
+`​ |-`[`misc/`](https://codeberg.org/Expo/Containers/src/branch/master/containers/misc)<br/>
+`​ | ​ General images that you likely have no need for on their own.`<br/>
 
 ## Users
 
