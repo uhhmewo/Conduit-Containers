@@ -12,6 +12,10 @@ WORKDIR "${HOME}/element-web"
 # Select the right tag
 RUN sh -c "if [[ '${BUILD_TAG}' == 'latest' ]]; then GIT_TAG=\$(git tag | sort -V | grep -v rc | grep -v alpha | grep -v beta | tail -n 1); echo \"Using version \$GIT_TAG\"; git reset --hard \$GIT_TAG; elif [[ '${BUILD_TAG}' == 'rc' ]]; then GIT_TAG=\$(git describe --tags --abbrev=0); echo \"Using version \$GIT_TAG\"; git reset --hard \$GIT_TAG; fi"
 
+# Setup configs
+COPY ./files/config.json "${HOME}/element-web/config.json"
+COPY ./files/env "${HOME}/element-web/.env"
+
 # Install Deps
 RUN yarn
 
