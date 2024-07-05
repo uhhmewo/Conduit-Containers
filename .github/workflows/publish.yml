@@ -31,13 +31,7 @@ jobs:
         run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
       - name: Install Dependencieis
-        run: |
-          set -eax
-          sudo apt install build-essential libssl-dev git make bash jq -y
-          sudo apt install podman buildah -y
-          sudo apt install qemu-system -y
-          sudo apt install qemu-user -y
-          sudo apt install qemu-user-static binfmt-support -y
+        run: sudo apt install build-essential libssl-dev git make bash jq podman buildah qemu-system qemu-user qemu-user-static binfmt-support -y
 
       - name: Enable Binfmt Support
         run: |
