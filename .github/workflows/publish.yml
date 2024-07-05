@@ -86,7 +86,7 @@ jobs:
 
       - name: Build OCI images
         run: |
-          WRITE_TO_PUSH_SCRIPT=/tmp/deploy.sh pnpm build:root --output-style stream
+          WRITE_TO_PUSH_SCRIPT=/tmp/deploy.sh pnpm build --output-style stream
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
