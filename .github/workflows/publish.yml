@@ -12,36 +12,33 @@ jobs:
   publish:
     runs-on: self-hosted
     steps:
-      - name: Trixie-ify
-        run: |
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
-          sudo sh -c "echo 'deb http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          wait
-          sudo apt update -y
+      # - name: Trixie-ify
+      #   run: |
+      #     (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
+      #     (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
+      #     sudo sh -c "echo 'deb http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
+      #     wait
+      #     sudo apt update -y
 
-      - name: Run multiarch/qemu-user-static
-        run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      # - name: Run multiarch/qemu-user-static
+      #   run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
-      - name: Install Dependencieis
-        run: |
-          set -eax
-          sudo apt install build-essential libssl-dev git make bash jq -y
-          sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
+      # - name: Install Dependencieis
+      #   run: |
+      #     set -eax
+      #     sudo apt install build-essential libssl-dev git make bash jq -y
+      #     sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
 
-      - name: Enable Binfmt Support
-        run: |
-          sudo /usr/sbin/update-binfmts --enable
-
-      - name: Tell git to shut up
-        run: git config --global --add safe.directory /__w/containers/containers
+      # - name: Enable Binfmt Support
+      #   run: |
+      #     sudo /usr/sbin/update-binfmts --enable
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,11 +58,7 @@ jobs:
 
       - name: Configure
         run: |
-          sudo mkdir -p /usr/bin/rootful
-          echo -e '#!/bin/bash\nsudo podman $@' | sudo tee /usr/bin/rootful/podman
-          echo -e '#!/bin/bash\nsudo buildah $@' | sudo tee /usr/bin/rootful/buildah
-          sudo chmod +x -R /usr/bin/rootful
-          ./configure --arch=any -o=/usr/bin/rootful/podman -O=/usr/bin/rootful/buildah
+          ./configure --arch=any
 
       - name: Update Version Number
         run: ./img-tools/ci/set-version
@@ -96,3 +89,9 @@ jobs:
         run: |
           chmod +x /tmp/deploy.sh
           sudo /tmp/deploy.sh
+
+      - name: Cleanup
+        run: |
+          podman system prune -af
+          podman system prune -af --external --volumes
+          podman image prune -af --external
