@@ -12,20 +12,20 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Sid-ify
-        run: |
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
-          wait
-          sudo sh -c "echo 'deb http://ftp.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.de.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian sid main' >> /etc/apt/sources.list"
-          sudo apt update -y -qq
+      # - name: Sid-ify
+      #   run: |
+      #     (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
+      #     (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
+      #     wait
+      #     sudo sh -c "echo 'deb http://ftp.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb http://ftp.de.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian sid main' >> /etc/apt/sources.list"
+      #     sudo apt update -y -qq
 
       - name: Run multiarch/qemu-user-static
         run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -34,10 +34,10 @@ jobs:
         run: |
           set -eax
           sudo apt install build-essential libssl-dev git make bash jq -y
-          sudo apt install podman/sid buildah/sid -y
-          sudo apt install qemu-system/sid -y
-          sudo apt install qemu-user/sid -y
-          sudo apt install qemu-user-static/sid binfmt-support/sid -y
+          sudo apt install podman buildah -y
+          sudo apt install qemu-system -y
+          sudo apt install qemu-user -y
+          sudo apt install qemu-user-static binfmt-support -y
 
       - name: Enable Binfmt Support
         run: |
