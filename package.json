@@ -3,7 +3,7 @@
   "version": "1.0.0-dev",
   "license": "MIT",
   "scripts": {
-    "build": "nx run-many --target=build --parallel=32",
+    "build": "nx run-many --target=build --parallel=16 --nxBail",
     "pub": "nx run-many --target=publish-no-ci"
   },
   "private": true,
