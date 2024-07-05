@@ -24,6 +24,7 @@ RUN yarn build
 
 # Move to /element-web
 RUN sudo mv "${HOME}/element-web/webapp" /element-web
+COPY ./files/config.json "/element-web/config.json"
 
 FROM scratch
 COPY --from=element /element-web/ /
