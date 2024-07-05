@@ -74,12 +74,13 @@ jobs:
         run: ./img-tools/ci/update-ci-instructions
 
       - name: Pull arch
-        run: |
-          sudo podman pull docker.io/archlinux:latest
+        run: sudo podman pull docker.io/archlinux:latest
 
       - name: Pull alpine
-        run: |
-          sudo podman pull docker.io/alpine:latest
+        run: sudo podman pull docker.io/alpine:latest
+
+      - name: Pull flutter bootstrap
+        run: sudo podman pull docker.io/3xpo/base-flutter-bootstrap:latest
 
       - name: Build OCI images
         run: |

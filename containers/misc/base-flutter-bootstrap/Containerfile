@@ -1,0 +1,20 @@
+FROM docker.io/3xpo/base
+
+LABEL org.opencontainers.image.title="Flutter Bootstrap Image"
+LABEL org.opencontainers.image.description="An image to bootstrap flutter"
+LABEL org.opencontainers.image.documentation="https://codeberg.org/Expo/containers/src/branch/master/containers/ci/base-flutter-bootstrap/README.md"
+LABEL org.opencontainers.image.licenses="GPL-3.0-or-later"
+
+RUN sudo pacman -S --noconfirm --needed dart git curl wget jq yq unzip which
+ENV FLUTTER_INSTALL_DIR="/usr/bin"
+ENV PATH="${PATH}:${FLUTTER_INSTALL_DIR}/flutter/bin"
+RUN curl -fLo /tmp/flutter.tar.xz 'https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.2-stable.tar.xz' && \
+  sudo tar -xf /tmp/flutter.tar.xz -C "${FLUTTER_INSTALL_DIR}/" && \
+  rm /tmp/flutter.tar.xz && \
+  sudo git config --global --add safe.directory "${FLUTTER_INSTALL_DIR}/flutter" && \
+  sudo flutter --disable-analytics && \
+  flutter --disable-analytics && \
+  sudo flutter --disable-analytics && \
+  flutter --disable-analytics && \
+  sudo flutter upgrade
+ONBUILD RUN sudo pacman -Syu --noconfirm && sudo flutter upgrade && flutter --disable-analytics && sudo flutter --disable-analytics

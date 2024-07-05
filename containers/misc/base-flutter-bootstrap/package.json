@@ -1,0 +1,11 @@
+{
+  "name": "base-flutter-bootstrap",
+  "author": "3xpo",
+  "scripts": {
+    "build:no-ci": "../../../img-tools/build",
+    "publish": "../../../publish"
+  },
+  "dependencies": {
+    "base": "workspace:*"
+  }
+}
