@@ -63,7 +63,12 @@ jobs:
         run: ./bootstrap
 
       - name: Configure
-        run: ./configure --arch=any
+        run: |
+          sudo mkdir -p /usr/bin/rootful
+          echo -e '#!/bin/bash\nsudo podman $@' | sudo tee /usr/bin/rootful/podman
+          echo -e '#!/bin/bash\nsudo buildah $@' | sudo tee /usr/bin/rootful/buildah
+          sudo chmod +x -R /usr/bin/rootful
+          ./configure --arch=any -o=/usr/bin/rootful/podman -O=/usr/bin/rootful/buildah
 
       - name: Update Version Number
         run: ./img-tools/ci/set-version
