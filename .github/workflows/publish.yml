@@ -25,7 +25,7 @@ jobs:
           sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
           wait
-          sudo apt update -y -qq
+          sudo apt update -y
 
       - name: Run multiarch/qemu-user-static
         run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
