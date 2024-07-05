@@ -6,6 +6,6 @@
     "publish": "../../../publish"
   },
   "dependencies": {
-    "base-flutter": "workspace:*"
+    "base": "workspace:*"
   }
 }
