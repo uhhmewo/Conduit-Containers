@@ -1,0 +1,30 @@
+# Conduit
+# Using docker.io/3xpo/alpine-conduit-client (unofficial, CI built image)
+
+services:
+  homeserver:
+    image: docker.io/3xpo/alpine-conduit-client:latest
+    restart: unless-stopped
+    ports:
+      # if you're doing TLS, either proxy ACME challenges to http://127.0.0.1:1180 and add a 2nd port bound to 443 in the container
+      # or handle TLS outside of the container and proxy everything to 127.0.0.1:1180
+      - 127.0.0.1:1180:80
+    volumes:
+      - /tmp/db:/var/lib/matrix-conduit/:rw
+      - /tmp/logs:/var/log
+    environment:
+      # replace the line below this one with just `example.com` to do TLS
+      # SERVER_ADDR should be what caddy binds to; see it's config format for info
+      SERVER_ADDR: http://example.com
+      # replace the line below this one with just `example.com` if you're not serving things directly on port 1180
+      # CONDUIT_SERVER_NAME should be what users see in their browsers
+      CONDUIT_SERVER_NAME: example.com:1180
+      CONDUIT_DATABASE_PATH: /var/lib/matrix-conduit
+      CONDUIT_DATABASE_BACKEND: rocksdb
+      CONDUIT_MAX_REQUEST_SIZE: 20000000
+      CONDUIT_ALLOW_REGISTRATION: 'true'
+      CONDUIT_ALLOW_FEDERATION: 'true'
+      CONDUIT_ALLOW_CHECK_FOR_UPDATES: 'true'
+      CONDUIT_TRUSTED_SERVERS: '["matrix.org"]'
+      CONDUIT_MAX_CONCURRENT_REQUESTS: 100
+      CONDUIT_CONFIG: '/etc/conduit.toml'

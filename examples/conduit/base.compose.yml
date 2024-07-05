@@ -1,9 +1,9 @@
 # Conduit
-# Using 3xpo/conduit-base (unofficial, CI built image)
+# Using 3xpo/alpine-conduit-base (unofficial, CI built image)
 
 services:
   homeserver:
-    image: docker.io/3xpo/conduit-base:latest
+    image: docker.io/3xpo/alpine-conduit-base:latest
     restart: unless-stopped
     ports:
       - 127.0.0.1:6167:6167

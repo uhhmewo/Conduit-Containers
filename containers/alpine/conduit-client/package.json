@@ -1,0 +1,12 @@
+{
+  "name": "alpine-conduit-client",
+  "author": "3xpo",
+  "scripts": {
+    "build": "../../../img-tools/build --no-cache=true",
+    "publish": "../../../publish"
+  },
+  "dependencies": {
+    "alpine-conduit-base": "workspace:*",
+    "matrix-web-client-files": "workspace:*"
+  }
+}

@@ -1,0 +1,2 @@
+--build-arg=BUILD_TAG=rc
+--build-arg=PARENT_TAG=latest

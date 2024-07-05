@@ -1,0 +1,2 @@
+--build-arg=BUILD_TAG=next
+--build-arg=PARENT_TAG=next

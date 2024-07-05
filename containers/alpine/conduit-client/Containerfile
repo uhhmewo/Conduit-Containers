@@ -1,0 +1,31 @@
+ARG PARENT_TAG="latest"
+ARG BUILD_TAG="latest"
+FROM docker.io/3xpo/alpine-conduit-base:${PARENT_TAG} AS base
+
+ARG BUILD_TAG="latest"
+ENV TAG="${BUILD_TAG}"
+
+USER root
+RUN apk --no-cache add caddy supervisor bash nss jq
+
+# Metadata
+LABEL org.opencontainers.image.title="Conduit + Clients" \
+  org.opencontainers.image.description="An image of a Matrix homeserver written in Rust, with some Matrix clients integrated into it"
+
+FROM docker.io/3xpo/matrix-web-client-files:${BUILD_TAG} AS clients
+FROM base
+
+COPY ./files/Caddyfile /etc/caddy/Caddyfile
+COPY ./files/configure-caddy.sh /bin/configure-caddy
+COPY ./files/launch-conduit.sh /bin/launch-conduit
+COPY ./files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY --from=clients / /var/www/html
+
+EXPOSE 80
+EXPOSE 443
+
+ENV CONDUIT_PORT=6167
+
+ENTRYPOINT [ ]
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
