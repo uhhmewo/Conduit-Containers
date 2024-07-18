@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '47 */2 * * *'
+    - cron: '23 */2 * * *'
   workflow_dispatch:
 
 jobs:
@@ -59,14 +59,17 @@ jobs:
       - name: Update CI-generated Metadata
         run: ./img-tools/ci/update-ci-instructions
 
-      - name: Pull arch
-        run: podman pull docker.io/archlinux:latest
+      - name: Pull arch base
+        run: podman pull docker.io/3xpo/base:latest
 
-      - name: Pull alpine
-        run: podman pull docker.io/alpine:latest
+      - name: Pull alpine base
+        run: podman pull docker.io/3xpo/alpine-base:latest
 
-      - name: Pull flutter bootstrap
-        run: podman pull docker.io/3xpo/base-flutter-bootstrap:latest
+      - name: Pull alpine base, edge
+        run: podman pull docker.io/3xpo/alpine-base:edge
+
+      - name: Pull arch base-flutter
+        run: podman pull docker.io/3xpo/base-flutter:latest
 
       - name: Build OCI images
         run: |
