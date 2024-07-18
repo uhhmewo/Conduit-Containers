@@ -12,14 +12,30 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Dependencies 1
+        run: |
+          sudo apt install build-essential libssl-dev git make bash jq -y
+
+      - name: Trixie-ify
+        run: |
+          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
+          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
+          sudo sh -c "echo 'deb http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo apt update
+          wait
+
       - name: Run multiarch/qemu-user-static
         run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
-      - name: Install Dependencieis
+      - name: Install Dependencies 2
         run: |
-          set -eax
-          sudo apt update
-          sudo apt install build-essential libssl-dev git make bash jq -y
           sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
 
       - name: Enable Binfmt Support
