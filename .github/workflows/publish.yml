@@ -36,7 +36,7 @@ jobs:
 
       - name: Install Dependencies 2
         run: |
-          sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
+          sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie base-files/trixie -y
 
       - name: Enable Binfmt Support
         run: |
