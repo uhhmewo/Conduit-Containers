@@ -10,48 +10,48 @@ on:
 
 jobs:
   publish:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
-      # - name: Trixie-ify
-      #   run: |
-      #     (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
-      #     (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
-      #     sudo sh -c "echo 'deb http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     sudo sh -c "echo 'deb-src http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     sudo sh -c "echo 'deb http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
-      #     wait
-      #     sudo apt update -y
+      - name: Trixie-ify
+        run: |
+          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
+          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
+          sudo sh -c "echo 'deb http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
+          wait
+          sudo apt update -y
 
-      # - name: Run multiarch/qemu-user-static
-      #   run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Run multiarch/qemu-user-static
+        run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
-      # - name: Install Dependencieis
-      #   run: |
-      #     set -eax
-      #     sudo apt install build-essential libssl-dev git make bash jq -y
-      #     sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
+      - name: Install Dependencieis
+        run: |
+          set -eax
+          sudo apt install build-essential libssl-dev git make bash jq -y
+          sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
 
-      # - name: Enable Binfmt Support
-      #   run: |
-      #     sudo /usr/sbin/update-binfmts --enable
+      - name: Enable Binfmt Support
+        run: |
+          sudo /usr/sbin/update-binfmts --enable
 
       - name: Checkout
         uses: actions/checkout@v4
 
-      # - name: Setup pnpm
-      #   uses: pnpm/action-setup@v4
-      #   with:
-      #     version: 'latest'
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 'latest'
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Bootstrap
         run: ./bootstrap
@@ -89,6 +89,7 @@ jobs:
         run: |
           chmod +x /tmp/deploy.sh
           /tmp/deploy.sh
+          rm -rf /tmp/deploy.sh
 
       - name: Cleanup
         run: |
