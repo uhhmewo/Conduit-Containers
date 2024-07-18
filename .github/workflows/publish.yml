@@ -10,11 +10,17 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
+      - name: Update Package Lists
+        run: sudo apt update -y
+
       - name: Install System Dependencies
         run: |
           sudo apt install build-essential libssl-dev git make bash jq -y
+
+      - name: Upgrade System
+        run: sudo apt dist-upgrade -y
 
       - name: Install Build Dependencies
         run: |
@@ -53,17 +59,14 @@ jobs:
       - name: Update CI-generated Metadata
         run: ./img-tools/ci/update-ci-instructions
 
-      - name: Pull arch base
-        run: podman pull docker.io/3xpo/base:latest
+      - name: Pull arch
+        run: podman pull docker.io/archlinux:latest
 
-      - name: Pull alpine base
-        run: podman pull docker.io/3xpo/alpine-base:latest
+      - name: Pull alpine
+        run: podman pull docker.io/alpine:latest
 
-      - name: Pull alpine base, edge
-        run: podman pull docker.io/3xpo/alpine-base:edge
-
-      - name: Pull arch base-flutter
-        run: podman pull docker.io/3xpo/base-flutter:latest
+      - name: Pull flutter bootstrap
+        run: podman pull docker.io/3xpo/base-flutter-bootstrap:latest
 
       - name: Build OCI images
         run: |
