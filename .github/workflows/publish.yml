@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Install Dependencies 1
         run: |
-          sudo apt install build-essential libssl-dev git make bash jq aptitude -y
+          sudo apt install build-essential libssl-dev git make bash jq -y
 
       - name: Trixie-ify
         run: |
@@ -28,15 +28,15 @@ jobs:
           sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
           sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo apt update
           wait
+          sudo apt update
 
       - name: Run multiarch/qemu-user-static
         run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
       - name: Install Dependencies 2
         run: |
-          sudo aptitude install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
+          sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
 
       - name: Enable Binfmt Support
         run: |
