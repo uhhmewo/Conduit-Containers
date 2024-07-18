@@ -1,2 +1,0 @@
-FROM docker.io/3xpo/alpine-base:edge
-ONBUILD RUN echo "DEPRECATED: This image is deprecated! Use 3xpo/alpine-base:edge instead! This image will be removed in the near future." 1>&2

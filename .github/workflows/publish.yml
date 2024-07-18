@@ -5,34 +5,20 @@ on:
     branches:
       - master
   schedule:
-    - cron: '23 */2 * * *'
+    - cron: '47 */2 * * *'
   workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Trixie-ify
-        run: |
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0E98404D386FA1D9' -o /tmp/0x0E98404D386FA1D9.asc && sudo mv /tmp/0x0E98404D386FA1D9.asc /etc/apt/trusted.gpg.d/) &
-          (curl -fL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6ED0E7B82643E131' -o /tmp/0x6ED0E7B82643E131.asc && sudo mv /tmp/0x6ED0E7B82643E131.asc /etc/apt/trusted.gpg.d/) &
-          sudo sh -c "echo 'deb http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.ch.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.de.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          sudo sh -c "echo 'deb-src http://ftp.ca.debian.org/debian trixie main' >> /etc/apt/sources.list"
-          wait
-          sudo apt update -y
-
       - name: Run multiarch/qemu-user-static
         run: sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
       - name: Install Dependencieis
         run: |
           set -eax
+          sudo apt update
           sudo apt install build-essential libssl-dev git make bash jq -y
           sudo apt install podman/trixie buildah/trixie qemu-system/trixie qemu-user/trixie qemu-user-static/trixie binfmt-support/trixie -y
 
@@ -66,14 +52,17 @@ jobs:
       - name: Update CI-generated Metadata
         run: ./img-tools/ci/update-ci-instructions
 
-      - name: Pull arch
-        run: podman pull docker.io/archlinux:latest
+      - name: Pull arch base
+        run: podman pull docker.io/3xpo/base:latest
 
-      - name: Pull alpine
-        run: podman pull docker.io/alpine:latest
+      - name: Pull alpine base
+        run: podman pull docker.io/3xpo/alpine-base:latest
 
-      - name: Pull flutter bootstrap
-        run: podman pull docker.io/3xpo/base-flutter-bootstrap:latest
+      - name: Pull alpine base, edge
+        run: podman pull docker.io/3xpo/alpine-base:edge
+
+      - name: Pull arch base-flutter
+        run: podman pull docker.io/3xpo/base-flutter:latest
 
       - name: Build OCI images
         run: |

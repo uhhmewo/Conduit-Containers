@@ -1,2 +1,0 @@
---build-arg=RELEASE_CHANNEL=edge
---build-arg=RELEASE_BRANCH=nightly-release
