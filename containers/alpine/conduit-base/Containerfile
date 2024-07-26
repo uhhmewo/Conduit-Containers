@@ -76,10 +76,11 @@ WORKDIR /srv/conduit
 # Remove priveleges
 RUN rm /etc/sudoers.d/lain
 
-USER lain
+USER root
+COPY files/entrypoint.sh /bin/entrypoint
 
 COPY --from=builder "${HOME}/conduit/target/${TARGET}/conduit" "/srv/conduit/conduit"
 
 # Run Conduit and print backtraces on panics
 ENV RUST_BACKTRACE=1
-ENTRYPOINT [ "/srv/conduit/conduit" ]
+ENTRYPOINT [ "/bin/sh", "/bin/entrypoint" ]

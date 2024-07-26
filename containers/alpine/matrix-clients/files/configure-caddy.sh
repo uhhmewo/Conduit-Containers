@@ -1,6 +1,12 @@
 #!/bin/bash
 set -eax
 
+jqInPlace() {
+  # sed -i but for jq
+  jq "$1" "$2" > /tmp/.jq-i
+  mv /tmp/.jq-i $2
+}
+
 if ! [[ -f /etc/caddy/Caddyfile ]]; then
   push() {
     echo "$1" >> /etc/caddy/Caddyfile
@@ -56,18 +62,12 @@ if ! [[ -f /etc/caddy/Caddyfile ]]; then
     else
       LINE="$LINE"' temporary'
     fi;
-    push $LINE
+    push "$LINE"
   fi;
   push ''
   push '  root /* /var/www/html'
   push '  file_server'
   push '}'
-
-  jqInPlace() {
-    # sed -i but for jq
-    jq "$1" "$2" > /tmp/.jq-i
-    mv /tmp/.jq-i $2
-  }
 fi;
 if [[ "$DEFAULT_CLIENT_HOMESERVER" != "" ]]; then
   # Set fluffychat default homeserver
@@ -90,5 +90,5 @@ if [[ "$DEFAULT_CLIENT_HOMESERVER" != "" ]]; then
   fi;
 fi;
 
-/usr/sbin/caddy validate --config /etc/caddy/Caddyfile
+/usr/sbin/caddy validate --config /etc/caddy/Caddyfile || EXIT_CODE=$? sh -c 'echo "Caddyfile:" && cat /etc/caddy/Caddyfile && exit $EXIT_CODE'
 /usr/sbin/caddy run --environ --config /etc/caddy/Caddyfile

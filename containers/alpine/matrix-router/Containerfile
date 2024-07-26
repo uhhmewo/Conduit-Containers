@@ -1,0 +1,9 @@
+ARG BUILD_TAG="latest"
+
+FROM docker.io/3xpo/alpine-base:edge
+COPY files/configure-caddy.sh /entrypoint.sh
+RUN sudo apk --no-cache add caddy && sudo rm /etc/caddy/Caddyfile
+
+VOLUME [ "/var/lib/caddy" ]
+
+CMD [ "sudo", "-E", "/bin/sh", "/entrypoint.sh" ]
