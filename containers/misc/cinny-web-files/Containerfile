@@ -15,6 +15,9 @@ RUN sh -c "if [[ '${BUILD_TAG}' == 'latest' ]]; then GIT_TAG=\$(git tag | sort -
 # Install Deps
 RUN npm i
 
+# Make the build config not use a base of /
+RUN sed "s|base: '/',|base: './',|g" -i build.config.ts
+
 # Build
 RUN npm run build
 
