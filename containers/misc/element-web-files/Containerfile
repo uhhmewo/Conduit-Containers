@@ -16,11 +16,11 @@ RUN sh -c "if [[ '${BUILD_TAG}' == 'latest' ]]; then GIT_TAG=\$(git tag | sort -
 COPY ./files/config.json "${HOME}/element-web/config.json"
 COPY ./files/env "${HOME}/element-web/.env"
 
-# Install Deps
-RUN yarn
-
 # Update caniuselite db
 RUN pnpm dlx update-browserslist-db@latest
+
+# Install Deps
+RUN yarn
 
 # TODO: remove this, upstream is incompetent
 RUN yarn add temporal-polyfill
