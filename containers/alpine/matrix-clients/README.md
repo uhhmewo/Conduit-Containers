@@ -17,9 +17,19 @@ Please define the `/var/lib/caddy/` volume when using this image.
 | `PROXY_MATRIX_TRAFFIC_TO`       | Proxies `/_matrix/*` to the value of the variable if set.                            | null    |
 | `REDIRECT_MATRIX_TRAFFIC_TO`    | Same as `PROXY_MATRIX_TRAFFIC_TO` but with http redirects                            | null    |
 | `USE_PERMANENT_MATRIX_REDIRECT` | If `true`, will use permanent redirects for `PROXY_MATRIX_TRAFFIC_TO`                | null    |
+| `DEFAULT_CLIENT_HOMESERVER`     | The default homeserver to use for clients                                            | null    |
 
 Note that you can overwrite `/.well-known/matrix/*` files by mounting a volume to `/var/www/html/.well-known/matrix`.
 
 `PROXY_MATRIX_TRAFFIC_TO` and `REDIRECT_MATRIX_TRAFFIC_TO` cannot be used at the same time.
 
 `LISTEN_ON` should not be set to anything but `:<port>` if you are using a reverse proxy.
+
+## Files to overwrite
+
+You may want to overwrite these files:
+
+- `/var/www/html/index.html`: Client Selection thing
+- `/var/www/html/element/config.json`: The element config
+- `/var/www/html/fluffychat/config.json`: The fluffychat config
+- `/var/www/html/.well-known/matrix/{client,server}`: Matrix configuration files

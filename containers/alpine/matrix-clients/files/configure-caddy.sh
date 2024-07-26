@@ -62,6 +62,32 @@ if ! [[ -f /etc/caddy/Caddyfile ]]; then
   push '  root /* /var/www/html'
   push '  file_server'
   push '}'
+
+  jqInPlace() {
+    # sed -i but for jq
+    jq "$1" "$2" > /tmp/.jq-i
+    mv /tmp/.jq-i $2
+  }
+fi;
+if [[ "$DEFAULT_CLIENT_HOMESERVER" != "" ]]; then
+  # Set fluffychat default homeserver
+  if [[ -f /var/www/html/fluffychat/config.json ]]; then
+    jqInPlace ".default_homeserver=\"$DEFAULT_CLIENT_HOMESERVER\"" /var/www/html/fluffychat/config.json
+  fi;
+
+  # Set cinny default homeserver
+  if [[ -f /var/www/html/cinny/config.json ]]; then
+    jqInPlace ".homeserverList |= . + [$(jq '.homeserverList[0]' /var/www/html/cinny/config.json)]" /var/www/html/cinny/config.json
+    jqInPlace ".homeserverList[0]=\"$DEFAULT_CLIENT_HOMESERVER\"" /var/www/html/cinny/config.json
+    jqInPlace '.defaultHomeserver=0' /var/www/html/cinny/config.json
+  fi;
+
+  # Set element default homeserver
+  if [[ -f /var/www/html/element/config.json ]]; then
+    jqInPlace '.default_server_config["m.homeserver"].server_name="'"$DEFAULT_CLIENT_HOMESERVER"'"' /var/www/html/element/config.json
+    jqInPlace ".room_directory.servers |= . + [$(jq '.room_directory.servers[0]' /var/www/html/cinny/config.json)]" /var/www/html/cinny/config.json
+    jqInPlace '.room_directory.servers[0]="'"$DEFAULT_CLIENT_HOMESERVER"'"' /var/www/html/cinny/config.json
+  fi;
 fi;
 
 /usr/sbin/caddy validate --config /etc/caddy/Caddyfile

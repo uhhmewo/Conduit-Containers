@@ -19,5 +19,8 @@ RUN sed -i 's|<base href="/">|<!-- <base href="/"> -->|g' "${HOME}/fluffychat/bu
 # Move to /fluffychat-web
 RUN sudo mv "${HOME}/fluffychat/build/web" /fluffychat-web
 
+# Copy the blank config
+COPY ./files/config.json /fluffychat-web/config.json
+
 FROM scratch
 COPY --from=fluffychat /fluffychat-web/ /
