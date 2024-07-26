@@ -19,7 +19,10 @@ COPY ./files/env "${HOME}/element-web/.env"
 # Install Deps
 RUN yarn
 
-# TODO: remove this,upstream is incompetent
+# Update caniuselite db
+RUN yarn dlx update-browserslist-db@latest
+
+# TODO: remove this, upstream is incompetent
 RUN yarn add temporal-polyfill
 
 # Build
