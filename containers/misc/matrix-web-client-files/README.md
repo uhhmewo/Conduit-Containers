@@ -1,3 +1,3 @@
-# fluffychat-files
+# matrix-web-client-files
 
-This image literally just has fluffychat's static HTML files.
+Some matrix web clients - just static files.

@@ -46,4 +46,6 @@ We expose port `443` by default
 
 This package offers a UI on the same domain as the homeserver. [Element considers this bad practice](https://github.com/element-hq/element-web?tab=readme-ov-file#separate-domains); you may want to consider using an external nginx/caddy instance that proxies everything excluding `/_matrix/` requests on one domain, and `/_matrix/` requests on another, to this container. Ideally, the one handling matrix requests, will redirect anything not sent to `/_matrix/` to the other container using HTTP redirects.
 
+You may want to consider separately using [alpine-conduit-base](https://hub.docker.com/r/3xpo/alpine-conduit-base) and [matrix-clients](https://hub.docker.com/r/3xpo/matrix-clients).
+
 I might make a wrapper container to make this easier in future.

@@ -1,0 +1,11 @@
+ARG BUILD_TAG="latest"
+FROM --platform=amd64 docker.io/3xpo/matrix-web-client-files:${BUILD_TAG} AS files
+
+FROM docker.io/3xpo/alpine-base:edge
+COPY --from=files / /var/www/html
+COPY files/configure-caddy.sh /entrypoint.sh
+RUN sudo apk --no-cache add caddy && sudo rm /etc/caddy/Caddyfile
+
+VOLUME [ "/var/lib/caddy" ]
+
+CMD [ "sudo", "-E", "/bin/sh", "/entrypoint.sh" ]
