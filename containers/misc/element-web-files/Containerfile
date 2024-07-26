@@ -20,7 +20,7 @@ COPY ./files/env "${HOME}/element-web/.env"
 RUN yarn
 
 # Update caniuselite db
-RUN yarn dlx update-browserslist-db@latest
+RUN pnpm dlx update-browserslist-db@latest
 
 # TODO: remove this, upstream is incompetent
 RUN yarn add temporal-polyfill
