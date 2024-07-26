@@ -1,4 +1,9 @@
 example.com {
+  header * X-Frame-Options SAMEORIGIN
+  header * X-XSS-Protection "1; mode=block;"
+  header * X-Content-Type-Options nosniff
+  header * Content-Security-Policy "frame-ancestors 'self'"
+
   header /.well-known/matrix/* Content-Type application/json
   header /.well-known/matrix/* Access-Control-Allow-Origin *
   respond /.well-known/matrix/server `{"m.server": "example.org:443"}`

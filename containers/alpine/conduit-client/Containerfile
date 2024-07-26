@@ -27,5 +27,7 @@ EXPOSE 443
 
 ENV CONDUIT_PORT=6167
 
+VOLUME [ "/var/lib/caddy" ]
+
 ENTRYPOINT [ ]
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

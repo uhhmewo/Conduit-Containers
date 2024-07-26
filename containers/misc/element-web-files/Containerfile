@@ -23,7 +23,7 @@ RUN pnpm dlx update-browserslist-db@latest
 RUN yarn
 
 # TODO: remove this, upstream is incompetent
-RUN yarn add temporal-polyfill
+RUN yarn add temporal-polyfill @vector-im/compound-design-tokens
 
 # Build
 RUN yarn build

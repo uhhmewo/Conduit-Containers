@@ -27,6 +27,7 @@ Oh also, `CONDUIT_PORT` must be 6167.
 ## Volumes
 
 - `/var/lib/matrix-conduit`: Conduit DB
+- `/var/lib/caddy`: [Caddy Data Directory](https://caddyserver.com/docs/conventions#data-directory)
 
 You may also want to create the following volumes:
 
@@ -40,3 +41,9 @@ You may also want to create the following volumes:
 ## Ports
 
 We expose port `443` by default
+
+## Security
+
+This package offers a UI on the same domain as the homeserver. [Element considers this bad practice](https://github.com/element-hq/element-web?tab=readme-ov-file#separate-domains); you may want to consider using an external nginx/caddy instance that proxies everything excluding `/_matrix/` requests on one domain, and `/_matrix/` requests on another, to this container. Ideally, the one handling matrix requests, will redirect anything not sent to `/_matrix/` to the other container using HTTP redirects.
+
+I might make a wrapper container to make this easier in future.
