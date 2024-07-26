@@ -19,6 +19,9 @@ COPY ./files/env "${HOME}/element-web/.env"
 # Install Deps
 RUN yarn
 
+# TODO: remove this,upstream is incompetent
+RUN yarn add temporal-polyfill
+
 # Build
 RUN yarn build
 

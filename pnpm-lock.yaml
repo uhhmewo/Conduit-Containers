@@ -18,77 +18,34 @@ importers:
         specifier: 19.3.0
         version: 19.3.0
 
-  containers/alpine/base: {}
+  containers/alpine/conduit-base: {}
 
-  containers/alpine/base-edge: {}
-
-  containers/alpine/conduit:
+  containers/alpine/conduit-client:
     dependencies:
-      alpine-base:
+      alpine-conduit-base:
         specifier: workspace:*
-        version: link:../base
+        version: link:../conduit-base
+      matrix-web-client-files:
+        specifier: workspace:*
+        version: link:../../misc/matrix-web-client-files
 
-  containers/alpine/prometheus:
+  containers/misc/cinny-web-files: {}
+
+  containers/misc/element-web-files: {}
+
+  containers/misc/fluffychat-web-files: {}
+
+  containers/misc/matrix-web-client-files:
     dependencies:
-      alpine-base:
+      cinny-web-files:
         specifier: workspace:*
-        version: link:../base
-
-  containers/alpine/qbittorrent:
-    dependencies:
-      alpine-base:
+        version: link:../cinny-web-files
+      element-web-files:
         specifier: workspace:*
-        version: link:../base
-
-  containers/alpine/vuetorrent:
-    dependencies:
-      alpine-qb:
+        version: link:../element-web-files
+      fluffychat-web-files:
         specifier: workspace:*
-        version: link:../qbittorrent
-
-  containers/alpine/wg:
-    dependencies:
-      alpine-base:
-        specifier: workspace:*
-        version: link:../base
-
-  containers/arch/nothing: {}
-
-  containers/arch/prometheus:
-    dependencies:
-      minimal-omz:
-        specifier: workspace:*
-        version: link:../../ci/minimal-omz
-
-  containers/ci/base:
-    dependencies:
-      minimal-omz:
-        specifier: workspace:*
-        version: link:../minimal-omz
-
-  containers/ci/base-rs:
-    dependencies:
-      base:
-        specifier: workspace:*
-        version: link:../base
-
-  containers/ci/flatpak:
-    dependencies:
-      base:
-        specifier: workspace:*
-        version: link:../base
-
-  containers/ci/minimal:
-    dependencies:
-      nothing:
-        specifier: workspace:*
-        version: link:../../arch/nothing
-
-  containers/ci/minimal-omz:
-    dependencies:
-      minimal:
-        specifier: workspace:*
-        version: link:../minimal
+        version: link:../fluffychat-web-files
 
 packages:
 
