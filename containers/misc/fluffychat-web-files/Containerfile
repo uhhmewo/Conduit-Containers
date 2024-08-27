@@ -14,7 +14,7 @@ RUN sh -c "if [[ '${BUILD_TAG}' == 'latest' ]]; then GIT_TAG=\$(git tag | sort -
 
 # Build
 # TODO: DO NOT UPGRADE ALL PKGS!
-RUN flutter pub upgrade --major-versions && flutter build web --release
+RUN flutter pub upgrade && flutter pub upgrade --major-versions archive && flutter build web --release
 RUN sed -i 's|<base href="/">|<!-- <base href="/"> -->|g' "${HOME}/fluffychat/build/web/index.html"
 
 # Move to /fluffychat-web
