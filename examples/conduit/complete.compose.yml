@@ -8,6 +8,7 @@ services:
     ports:
       # if you're doing TLS, either proxy ACME challenges to http://127.0.0.1:1180 and add a 2nd port bound to 443 in the container
       # or handle TLS outside of the container and proxy everything to 127.0.0.1:1180
+      # you should also proxy traffic on :8448 to 127.0.0.1:1180
       - 127.0.0.1:1180:80
     volumes:
       - /tmp/db:/var/lib/matrix-conduit/:rw
