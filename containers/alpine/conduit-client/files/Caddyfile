@@ -1,4 +1,4 @@
-example.com {
+example.com, example.com:8448 {
   header * X-Frame-Options SAMEORIGIN
   header * X-XSS-Protection "1; mode=block;"
   header * X-Content-Type-Options nosniff

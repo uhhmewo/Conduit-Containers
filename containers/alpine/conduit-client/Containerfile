@@ -24,6 +24,7 @@ COPY --from=clients / /var/www/html
 
 EXPOSE 80
 EXPOSE 443
+EXPOSE 8448
 
 ENV CONDUIT_PORT=6167
 

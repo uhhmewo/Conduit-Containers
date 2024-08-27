@@ -40,7 +40,7 @@ You may also want to create the following volumes:
 
 ## Ports
 
-We expose port `443` by default
+We expose ports `8448`, `443` and `80` by default. You should pass through `8448` as-is if you pass through `443` as-is - otherwise, you should handle 8448 equally to whatever port you're using for other traffic.
 
 ## Security
 
