@@ -8,6 +8,7 @@ fi
 if [[ "$WRITE_TO_PUSH_SCRIPT" != "" ]] && ! [[ -f "$WRITE_TO_PUSH_SCRIPT" ]]; then
   echo '#!/bin/bash' > "$WRITE_TO_PUSH_SCRIPT"
   echo 'set -eax' >> "$WRITE_TO_PUSH_SCRIPT"
+  echo 'EXIT_WITH=0' >> "$WRITE_TO_PUSH_SCRIPT"
 fi
 
 export NAME="$("$JQ" -r .name package.json)"
@@ -110,7 +111,7 @@ runCompleteBuild() {
       if [[ "$WILL_PUBLISH" == "true" ]]; then
         "$OCI_HOST" manifest push "${IMAGE}:${TAG}"
       elif [[ "$WRITE_TO_PUSH_SCRIPT" != "" ]]; then
-        echo "'$OCI_HOST' manifest push '${IMAGE}:${TAG}'" >> "$WRITE_TO_PUSH_SCRIPT"
+        echo "'$OCI_HOST' manifest push '${IMAGE}:${TAG}' || EXIT_WITH=\$?" >> "$WRITE_TO_PUSH_SCRIPT"
       fi
     fi
   }
