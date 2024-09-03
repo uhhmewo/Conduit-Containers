@@ -108,10 +108,18 @@ runCompleteBuild() {
     if [[ "$(basename $OCI_HOST)" == "docker" ]]; then
       docker buildx stop "$DOCKER_BUILDER_NAME"
     else
-      if [[ "$WILL_PUBLISH" == "true" ]]; then
-        "$OCI_HOST" manifest push "${IMAGE}:${TAG}"
-      elif [[ "$WRITE_TO_PUSH_SCRIPT" != "" ]]; then
-        echo "'$OCI_HOST' manifest push '${IMAGE}:${TAG}' || EXIT_WITH=\$?" >> "$WRITE_TO_PUSH_SCRIPT"
+      if podman manifest inspect "${IMAGE}:${TAG}"; then
+        if [[ "$WILL_PUBLISH" == "true" ]]; then
+          "$OCI_HOST" manifest push "${IMAGE}:${TAG}"
+        elif [[ "$WRITE_TO_PUSH_SCRIPT" != "" ]]; then
+          echo "'$OCI_HOST' manifest push '${IMAGE}:${TAG}' || EXIT_WITH=\$?" >> "$WRITE_TO_PUSH_SCRIPT"
+        fi
+      else
+        if [[ "$WILL_PUBLISH" == "true" ]]; then
+          "$OCI_HOST" push "${IMAGE}:${TAG}"
+        elif [[ "$WRITE_TO_PUSH_SCRIPT" != "" ]]; then
+          echo "'$OCI_HOST' push '${IMAGE}:${TAG}' || EXIT_WITH=\$?" >> "$WRITE_TO_PUSH_SCRIPT"
+        fi
       fi
     fi
   }
