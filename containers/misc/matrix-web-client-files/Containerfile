@@ -1,5 +1,3 @@
-FROM scratch as blank
-
 # the outputs are all built on amd64, even though they work multiarch, due to flutter only being on amd64 - hence we specify a FROM of specifically amd64 here
 # and have this image output many diff archs, as it just copies from those
 ARG BUILD_TAG="latest"
@@ -9,7 +7,7 @@ FROM --platform=linux/amd64 docker.io/3xpo/element-web-files:${BUILD_TAG} AS ele
 ARG BUILD_TAG="latest"
 FROM --platform=linux/amd64 docker.io/3xpo/fluffychat-web-files:${BUILD_TAG} AS fluffychat
 
-FROM blank
+FROM scratch
 COPY ./files/ /
 COPY --from=cinny / /cinny
 COPY --from=element / /element
